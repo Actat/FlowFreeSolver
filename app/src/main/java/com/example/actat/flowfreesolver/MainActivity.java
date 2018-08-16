@@ -1,7 +1,5 @@
 package com.example.actat.flowfreesolver;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button btn = (Button)findViewById(R.id.button);
-        Drawable btn_color = ResourcesCompat.getDrawable(getResources(), R.drawable.color1, null);
+        Drawable btn_color = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_red, null);
         btn.setBackground(btn_color);
     }
 }
