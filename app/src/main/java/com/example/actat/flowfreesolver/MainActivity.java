@@ -346,18 +346,32 @@ public class MainActivity extends AppCompatActivity {
         if (isBoardFilled() && !isBoardSolved()) return false;
 
         // 次に調べるマスを決める
+
         int row = -1, col = -1;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (board[i][j] == -1) {
-                    row = i;
-                    col = j;
+        {
+            int min = 4;
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (board[i][j] == -1) {
+                        // 周囲の空いているマスを数える
+                        int count = 0;
+                        if (i - 1 >= 0 && board[i - 1][j] == -1) count++;
+                        if (j - 1 >= 0 && board[i][j - 1] == -1) count++;
+                        if (i + 1 < 5 && board[i + 1][j] == -1) count++;
+                        if (j + 1 < 5 && board[i][j + 1] == -1) count++;
+                        // 空きマスが最小（タイ）のところから探索を行う
+                        if (count <= min) {
+                            row = i;
+                            col = j;
+                            min = count;
+                        }
+                    }
                 }
             }
-        }
-        if (row == -1 || col == -1) {
-            // Log.v("SOLVE_LOGIC", "isBoardFilled() has problem");
-            return false;
+            if (row == -1 || col == -1) {
+                // Log.v("SOLVE_LOGIC", "isBoardFilled() has problem");
+                return false;
+            }
         }
 
         // マスに色を与えて次に進む
