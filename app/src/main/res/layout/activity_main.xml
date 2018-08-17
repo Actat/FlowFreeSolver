@@ -52,7 +52,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#b0b0b0">
+        android:background="#000000">
 
         <TableLayout
             android:layout_width="match_parent"

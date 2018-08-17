@@ -15,8 +15,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
+    int button_default;
     Drawable button_ring[] = new Drawable[16];
-    // Drawable button_rect[] = new Drawable[16];
     int button_rect[] = new int[16];
     Button button[] = new Button[25];
 
@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         selectCount = 0;
     }
     private void button_init() {
+        button_default = R.drawable.button_default;
+
         button_ring[0] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_red, null);
         button_ring[1] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_green, null);
         button_ring[2] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_blue, null);
@@ -103,24 +105,6 @@ public class MainActivity extends AppCompatActivity {
         button_ring[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_white, null);
         button_ring[14] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_darkcyan, null);
         button_ring[15] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_gray, null);
-/*
-        button_rect[0] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_red, null);
-        button_rect[1] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_green, null);
-        button_rect[2] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_blue, null);
-        button_rect[3] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_yellow, null);
-        button_rect[4] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_orange, null);
-        button_rect[5] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_cyan, null);
-        button_rect[6] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_magenta, null);
-        button_rect[7] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_pink, null);
-        button_rect[8] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_purple, null);
-        button_rect[9] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_tan, null);
-        button_rect[10] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_maroon, null);
-        button_rect[11] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_brightgreen, null);
-        button_rect[12] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_darkblue, null);
-        button_rect[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_white, null);
-        button_rect[14] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_darkcyan, null);
-        button_rect[15] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_gray, null);
-        */
 
         button_rect[0] =  R.drawable.rect_red;
         button_rect[1] =  R.drawable.rect_green;
@@ -165,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
         button[23] = (Button)findViewById(R.id.button24);
         button[24] = (Button)findViewById(R.id.button25);
 
+        for (int i = 0; i < 25; i++) {
+            button[i].setBackgroundResource(button_default);
+        }
 
         button[0].setOnClickListener(new View.OnClickListener() {
             @Override
