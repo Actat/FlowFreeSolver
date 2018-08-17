@@ -336,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
     private void reDraw() {
         for (int i = 0; i < 25; i++) {
             if (board[i / 5][i % 5] >= 0 && board[i / 5][i % 5] < 16) button[i].setBackgroundResource(button_rect[board[i / 5][i % 5]]);
+            if (board[i / 5][i % 5] >= 100 && board[i / 5][i % 5] < 116) button[i].setBackground(button_ring[board[i / 5][i % 5] % 100]);
             button[i].invalidate();
         }
 
