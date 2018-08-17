@@ -59,11 +59,15 @@ public class MainActivity extends AppCompatActivity {
                 // clickされた時の処理
                 // Log.v("SOLVE", "button_solve clicked");
                 // Log.v("ans", String.valueOf(solveProblem()));
-                AsyncTask<Object, Integer, Integer> task = new AsyncTask<Object, Integer, Integer>() {
+                AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
                     @Override
-                    protected Integer doInBackground(Object... objects) {
-                        solveProblem();
-                        return null;
+                    protected Boolean doInBackground(Object... objects) {
+                        return solveProblem();
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean result) {
+                        Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
                     }
                 };
                 task.execute(this);
