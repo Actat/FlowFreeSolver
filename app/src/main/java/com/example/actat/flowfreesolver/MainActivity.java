@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 board[i][j] = -1;
             }
         }
+        selectCount = 0;
     }
     private void button_init() {
         button_ring[0] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_red, null);
