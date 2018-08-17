@@ -1,6 +1,7 @@
 package com.example.actat.flowfreesolver;
 
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,22 +9,33 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Timer;
+import java.util.TimerTask;
 
+public class MainActivity extends AppCompatActivity {
     Drawable button_ring[] = new Drawable[16];
-    Drawable button_rect[] = new Drawable[16];
+    // Drawable button_rect[] = new Drawable[16];
+    int button_rect[] = new int[16];
     Button button[] = new Button[25];
+
+    int board[][] = new int[5][5];
+    int selectCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        board_init();
+        // Log.v("INIT", "board_init finished");
+        button_init();
+        // Log.v("INIT", "button_init finished");
+
         ((Button)findViewById(R.id.button_reset)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
-                Log.v("RESET", "button_reset clicked");
+                // Log.v("RESET", "button_reset clicked");
             }
         });
 
@@ -31,13 +43,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
-                Log.v("SOLVE", "button_solve clicked");
+                // Log.v("SOLVE", "button_solve clicked");
+                Log.v("ans", String.valueOf(solveProblem()));
             }
         });
-
-        button_init();
     }
 
+    // init
+    private void board_init() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                board[i][j] = -1;
+            }
+        }
+    }
     private void button_init() {
         button_ring[0] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_red, null);
         button_ring[1] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_green, null);
@@ -55,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         button_ring[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_white, null);
         button_ring[14] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_darkcyan, null);
         button_ring[15] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_gray, null);
-
+/*
         button_rect[0] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_red, null);
         button_rect[1] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_green, null);
         button_rect[2] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_blue, null);
@@ -72,6 +91,24 @@ public class MainActivity extends AppCompatActivity {
         button_rect[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_white, null);
         button_rect[14] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_darkcyan, null);
         button_rect[15] = ResourcesCompat.getDrawable(getResources(), R.drawable.rect_gray, null);
+        */
+
+        button_rect[0] =  R.drawable.rect_red;
+        button_rect[1] =  R.drawable.rect_green;
+        button_rect[2] =  R.drawable.rect_blue;
+        button_rect[3] =  R.drawable.rect_yellow;
+        button_rect[4] =  R.drawable.rect_orange;
+        button_rect[5] =  R.drawable.rect_cyan;
+        button_rect[6] =  R.drawable.rect_magenta;
+        button_rect[7] =  R.drawable.rect_pink;
+        button_rect[8] =  R.drawable.rect_purple;
+        button_rect[9] =  R.drawable.rect_tan;
+        button_rect[10] = R.drawable.rect_maroon;
+        button_rect[11] = R.drawable.rect_brightgreen;
+        button_rect[12] = R.drawable.rect_darkblue;
+        button_rect[13] = R.drawable.rect_white;
+        button_rect[14] = R.drawable.rect_darkcyan;
+        button_rect[15] = R.drawable.rect_gray;
 
         button[0] = (Button)findViewById(R.id.button1);
         button[1] = (Button)findViewById(R.id.button2);
@@ -98,5 +135,348 @@ public class MainActivity extends AppCompatActivity {
         button[22] = (Button)findViewById(R.id.button23);
         button[23] = (Button)findViewById(R.id.button24);
         button[24] = (Button)findViewById(R.id.button25);
+
+
+        button[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(0);
+            }
+        });
+        button[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(1);
+            }
+        });
+        button[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(2);
+            }
+        });
+        button[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(3);
+            }
+        });
+        button[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(4);
+            }
+        });
+        button[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(5);
+            }
+        });
+        button[6].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(6);
+            }
+        });
+        button[7].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(7);
+            }
+        });
+        button[8].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(8);
+            }
+        });
+        button[9].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(9);
+            }
+        });
+        button[10].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(10);
+            }
+        });
+        button[11].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(11);
+            }
+        });
+        button[12].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(12);
+            }
+        });
+        button[13].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(13);
+            }
+        });
+        button[14].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(14);
+            }
+        });
+        button[15].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(15);
+            }
+        });
+        button[16].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(16);
+            }
+        });
+        button[17].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(17);
+            }
+        });
+        button[18].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(18);
+            }
+        });
+        button[19].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(19);
+            }
+        });
+        button[20].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(20);
+            }
+        });
+        button[21].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(21);
+            }
+        });
+        button[22].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(22);
+            }
+        });
+        button[23].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(23);
+            }
+        });
+        button[24].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button_pushed(24);
+            }
+        });
+
+    }
+    private void button_pushed(int num) {
+        int row = num / 5;
+        int col = num % 5;
+        int color = 0;
+
+        if (selectCount % 2 == 0) {
+            color = selectCount / 2;
+        } else {
+            color = (selectCount - 1) / 2;
+        }
+        selectCount++;
+
+        board[row][col] = color + 100;
+        button[num].setBackground(button_ring[color]);
+    }
+
+    // draw
+    private void reDraw() {
+        for (int i = 0; i < 25; i++) {
+            if (board[i / 5][i % 5] >= 0 && board[i / 5][i % 5] < 16) button[i].setBackgroundResource(button_rect[board[i / 5][i % 5]]);
+            button[i].invalidate();
+        }
+
+        Log.v("DRAW", "reDraw executed");
+    }
+
+    // solve problems
+    boolean solveProblem() {
+        if (isBoardFilled()) {
+            if (isBoardQualified()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // 次に調べるマスを決める
+        int row = -1, col = -1;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (board[i][j] == -1) {
+                    row = i;
+                    col = j;
+                }
+            }
+        }
+        if (row == -1 || col == -1) {
+            // Log.v("SOLVE_LOGIC", "isBoardFilled() has problem");
+            return false;
+        }
+        // マスに色を与えて次に進む
+        for (int i = 0; i < selectCount / 2; i++) {
+            board[row][col] = i;
+            Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
+            button[row * 5 + col].setBackgroundResource(button_rect[i]);
+            if (solveProblem()) {
+                return true;
+            }
+        }
+        board[row][col] = -1;
+        return false;
+    }
+    private boolean isBoardFilled () {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (board[i][j] <0) return false;
+            }
+        }
+        return true;
+    }
+    private boolean isBoardQualified () {
+        if (!isBoardFilled()) return false;
+
+        // left up
+        if (board[0][0] >= 100) {
+            if (board[0][1] % 100 == board[0][0] % 100 && board[1][0] % 100 == board[0][0] % 100) return false;
+            if (board[0][1] % 100 != board[0][0] % 100 && board[1][0] % 100 != board[0][0] % 100) return false;
+        } else {
+            if (board[0][1] % 100 != board[0][0] % 100 || board[1][0] % 100 != board[0][0] % 100) return false;
+
+        }
+        // right up
+        if (board[0][4] >= 100) {
+            if (board[0][3] % 100 == board[0][4] % 100 && board[1][4] % 100 == board[0][4] % 100) return false;
+            if (board[0][3] % 100 != board[0][4] % 100 && board[1][4] % 100 != board[0][4] % 100) return false;
+        } else {
+            if (board[0][3] % 100 != board[0][4] % 100 || board[1][4] % 100 != board[0][4] % 100) return false;
+
+        }
+        // left below
+        if (board[4][0] >= 100) {
+            if (board[4][1] % 100 == board[4][0] % 100 && board[3][0] % 100 == board[4][0] % 100) return false;
+            if (board[4][1] % 100 != board[4][0] % 100 && board[3][0] % 100 != board[4][0] % 100) return false;
+        } else {
+            if (board[4][1] % 100 != board[4][0] % 100 || board[3][0] % 100 != board[4][0] % 100) return false;
+
+        }
+        // right below
+        if (board[4][4] >= 100) {
+            if (board[4][3] % 100 == board[4][4] % 100 && board[3][4] % 100 == board[4][4] % 100) return false;
+            if (board[4][3] % 100 != board[4][4] % 100 && board[3][4] % 100 != board[4][4] % 100) return false;
+        } else {
+            if (board[4][3] % 100 != board[4][4] % 100 || board[3][4] % 100 != board[4][4] % 100) return false;
+
+        }
+
+
+        // up
+        for (int i = 1; i < 4; i++) {
+            int cnt = 0;
+            if (board[0][i] >= 100) {
+                if (board[0][i - 1] % 100 == board[0][i] % 100) cnt++;
+                if (board[0 + 1][i] % 100 == board[0][i] % 100) cnt++;
+                if (board[0][i + 1] % 100 == board[0][i] % 100) cnt++;
+                if (cnt != 1) return false;
+            } else {
+                if (board[0][i - 1] % 100 == board[0][i] % 100) cnt++;
+                if (board[0 + 1][i] % 100 == board[0][i] % 100) cnt++;
+                if (board[0][i + 1] % 100 == board[0][i] % 100) cnt++;
+                if (cnt != 2) return false;
+            }
+        }
+        // below
+        for (int i = 1; i < 4; i++) {
+            int cnt = 0;
+            if (board[i][4] >= 100) {
+                if (board[i - 1][4] % 100 == board[i][4] % 100) cnt++;
+                if (board[i][4 - 1] % 100 == board[i][4] % 100) cnt++;
+                if (board[i + 1][4] % 100 == board[i][4] % 100) cnt++;
+                if (cnt != 1) return false;
+            } else {
+                if (board[i - 1][4] % 100 == board[i][4] % 100) cnt++;
+                if (board[i][4 - 1] % 100 == board[i][4] % 100) cnt++;
+                if (board[i + 1][4] % 100 == board[i][4] % 100) cnt++;
+                if (cnt != 2) return false;
+            }
+        }
+        // left
+        for (int j = 1; j < 4; j++) {
+            int cnt = 0;
+            if (board[0][j] >= 100) {
+                if (board[0][j - 1] % 100 == board[0][j] % 100) cnt++;
+                if (board[0][j + 1] % 100 == board[0][j] % 100) cnt++;
+                if (board[0 + 1][j] % 100 == board[0][j] % 100) cnt++;
+                if (cnt != 1) return false;
+            } else {
+                if (board[0][j - 1] % 100 == board[0][j] % 100) cnt++;
+                if (board[0][j + 1] % 100 == board[0][j] % 100) cnt++;
+                if (board[0 + 1][j] % 100 == board[0][j] % 100) cnt++;
+                if (cnt != 2) return false;
+            }
+        }
+        // right
+        for (int j = 1; j < 4; j++) {
+            int cnt = 0;
+            if (board[4][j] >= 100) {
+                if (board[4][j - 1] % 100 == board[4][j] % 100) cnt++;
+                if (board[4][j + 1] % 100 == board[4][j] % 100) cnt++;
+                if (board[4 - 1][j] % 100 == board[4][j] % 100) cnt++;
+                if (cnt != 1) return false;
+            } else {
+                if (board[4][j - 1] % 100 == board[4][j] % 100) cnt++;
+                if (board[4][j + 1] % 100 == board[4][j] % 100) cnt++;
+                if (board[4 - 1][j] % 100 == board[4][j] % 100) cnt++;
+                if (cnt != 2) return false;
+            }
+        }
+
+        // center
+        for (int i = 1; i < 4; i++) {
+            for (int j = 1; j < 4; j++) {
+                int cnt = 0;
+                if (board[i][j] >= 100) {
+                    if (board[i - 1][j] % 100 == board[i][j] % 100) cnt++;
+                    if (board[i][j - 1] % 100 == board[i][j] % 100) cnt++;
+                    if (board[i][j + 1] % 100 == board[i][j] % 100) cnt++;
+                    if (board[i + 1][j] % 100 == board[i][j] % 100) cnt++;
+                    if (cnt != 1) return false;
+                } else {
+                    if (board[i - 1][j] % 100 == board[i][j] % 100) cnt++;
+                    if (board[i][j - 1] % 100 == board[i][j] % 100) cnt++;
+                    if (board[i][j + 1] % 100 == board[i][j] % 100) cnt++;
+                    if (board[i + 1][j] % 100 == board[i][j] % 100) cnt++;
+                    if (cnt != 2) return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
