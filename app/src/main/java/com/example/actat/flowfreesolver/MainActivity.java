@@ -1,6 +1,7 @@
 package com.example.actat.flowfreesolver;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
         button_init();
         // Log.v("INIT", "button_init finished");
 
+        final Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                reDraw();
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.post(r);
+
         ((Button)findViewById(R.id.button_reset)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +55,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // clickされた時の処理
                 // Log.v("SOLVE", "button_solve clicked");
-                Log.v("ans", String.valueOf(solveProblem()));
+                // Log.v("ans", String.valueOf(solveProblem()));
+                AsyncTask<Object, Integer, Integer> task = new AsyncTask<Object, Integer, Integer>() {
+                    @Override
+                    protected Integer doInBackground(Object... objects) {
+                        solveProblem();
+                        return null;
+                    }
+                };
+                task.execute(this);
+
             }
         });
     }
@@ -343,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < selectCount / 2; i++) {
             board[row][col] = i;
             Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
-            button[row * 5 + col].setBackgroundResource(button_rect[i]);
+            // button[row * 5 + col].setBackgroundResource(button_rect[i]);
             if (solveProblem()) {
                 return true;
             }
