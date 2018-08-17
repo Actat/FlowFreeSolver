@@ -1,5 +1,6 @@
 package com.example.actat.flowfreesolver;
 
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 reDraw();
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 50);
             }
         };
         handler.post(r);
@@ -69,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Boolean result) {
                         Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
+                        if (!result) {
+                            board_init();
+                            button_init();
+                        }
+                        reDraw();
                     }
                 };
                 task.execute(this);
@@ -324,19 +330,20 @@ public class MainActivity extends AppCompatActivity {
     // draw
     private void reDraw() {
         for (int i = 0; i < 25; i++) {
-            if (board[i / 5][i % 5] >= 0 && board[i / 5][i % 5] < 16) button[i].setBackgroundResource(button_rect[board[i / 5][i % 5]]);
-            if (board[i / 5][i % 5] >= 100 && board[i / 5][i % 5] < 116) button[i].setBackground(button_ring[board[i / 5][i % 5] % 100]);
+            int tmp = board[i / 5][i % 5];
+            if (tmp >= 0 && tmp < 16) button[i].setBackgroundResource(button_rect[tmp]);
+            if (tmp >= 100 && tmp < 116) button[i].setBackground(button_ring[tmp % 100]);
+            if (tmp == -1) button[i].setBackgroundResource(button_default);
             button[i].invalidate();
         }
 
-        Log.v("DRAW", "reDraw executed");
+        // Log.v("DRAW", "reDraw executed");
     }
 
     // solve problems
     boolean solveProblem() {
         if (isBoardSolved()) return true;
         if (isBoardFilled() && !isBoardSolved()) return false;
-        if (!isBoardQualified()) return false;
 
         // 次に調べるマスを決める
         int row = -1, col = -1;
@@ -356,10 +363,11 @@ public class MainActivity extends AppCompatActivity {
         // マスに色を与えて次に進む
         for (int i = 0; i < selectCount / 2; i++) {
             board[row][col] = i;
-            Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
-            // button[row * 5 + col].setBackgroundResource(button_rect[i]);
-            if (solveProblem()) {
-                return true;
+            // Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
+            if (isBoardQualified()) {
+                if (solveProblem()) {
+                    return true;
+                }
             }
         }
         board[row][col] = -1;
@@ -413,60 +421,48 @@ public class MainActivity extends AppCompatActivity {
         // up
         for (int i = 1; i < 4; i++) {
             int cnt = 0;
-            if (board[0][i] >= 100) {
                 if (board[0][i - 1] % 100 == board[0][i] % 100) cnt++;
                 if (board[0 + 1][i] % 100 == board[0][i] % 100) cnt++;
                 if (board[0][i + 1] % 100 == board[0][i] % 100) cnt++;
+            if (board[0][i] >= 100) {
                 if (cnt != 1) return false;
             } else {
-                if (board[0][i - 1] % 100 == board[0][i] % 100) cnt++;
-                if (board[0 + 1][i] % 100 == board[0][i] % 100) cnt++;
-                if (board[0][i + 1] % 100 == board[0][i] % 100) cnt++;
                 if (cnt != 2) return false;
             }
         }
         // below
         for (int i = 1; i < 4; i++) {
             int cnt = 0;
-            if (board[i][4] >= 100) {
                 if (board[i - 1][4] % 100 == board[i][4] % 100) cnt++;
                 if (board[i][4 - 1] % 100 == board[i][4] % 100) cnt++;
                 if (board[i + 1][4] % 100 == board[i][4] % 100) cnt++;
+            if (board[i][4] >= 100) {
                 if (cnt != 1) return false;
             } else {
-                if (board[i - 1][4] % 100 == board[i][4] % 100) cnt++;
-                if (board[i][4 - 1] % 100 == board[i][4] % 100) cnt++;
-                if (board[i + 1][4] % 100 == board[i][4] % 100) cnt++;
                 if (cnt != 2) return false;
             }
         }
         // left
         for (int j = 1; j < 4; j++) {
             int cnt = 0;
-            if (board[0][j] >= 100) {
-                if (board[0][j - 1] % 100 == board[0][j] % 100) cnt++;
-                if (board[0][j + 1] % 100 == board[0][j] % 100) cnt++;
-                if (board[0 + 1][j] % 100 == board[0][j] % 100) cnt++;
+                if (board[j - 1][0] % 100 == board[j][0] % 100) cnt++;
+                if (board[j + 1][0] % 100 == board[j][0] % 100) cnt++;
+                if (board[j][0 + 1] % 100 == board[j][0] % 100) cnt++;
+            if (board[j][0] >= 100) {
                 if (cnt != 1) return false;
             } else {
-                if (board[0][j - 1] % 100 == board[0][j] % 100) cnt++;
-                if (board[0][j + 1] % 100 == board[0][j] % 100) cnt++;
-                if (board[0 + 1][j] % 100 == board[0][j] % 100) cnt++;
                 if (cnt != 2) return false;
             }
         }
         // right
         for (int j = 1; j < 4; j++) {
             int cnt = 0;
+                if (board[j - 1][4] % 100 == board[j][4] % 100) cnt++;
+                if (board[j + 1][4] % 100 == board[j][4] % 100) cnt++;
+                if (board[j][4 - 1] % 100 == board[j][4] % 100) cnt++;
             if (board[4][j] >= 100) {
-                if (board[4][j - 1] % 100 == board[4][j] % 100) cnt++;
-                if (board[4][j + 1] % 100 == board[4][j] % 100) cnt++;
-                if (board[4 - 1][j] % 100 == board[4][j] % 100) cnt++;
                 if (cnt != 1) return false;
             } else {
-                if (board[4][j - 1] % 100 == board[4][j] % 100) cnt++;
-                if (board[4][j + 1] % 100 == board[4][j] % 100) cnt++;
-                if (board[4 - 1][j] % 100 == board[4][j] % 100) cnt++;
                 if (cnt != 2) return false;
             }
         }
@@ -494,15 +490,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     private boolean isBoardQualified () {
-        for (int i = 1; i < 4; i++) {
-            for (int j = 1; j < 4; j++) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                // Log.v("LOGIC", "[i,j]: " + String.valueOf(i) + ", " + String.valueOf(j) + "\n");
                 int count = 0;
                 int[] neighbor_value = {-2, -2, -2, -2};
                 int[] neighbor_color = {-2, -2, -2, -2};
                 if (i - 1 >= 0) {
                     neighbor_value[0] = board[i - 1][j];
                     neighbor_color[0] = board[i - 1][j] % 100;
-
                 }
                 if (j - 1 >= 0) {
                     neighbor_value[1] = board[i][j - 1];
@@ -516,9 +512,9 @@ public class MainActivity extends AppCompatActivity {
                     neighbor_value[3] = board[i][j + 1];
                     neighbor_color[3] = board[i][j + 1] % 100;
                 }
-
+                /*
                 // 色が決まっているのにneighbor_valueに-1も同じ色も存在しないと困る
-                if (board[i][j] >= 0 && board[i][j] < 16) {
+                if (board[i][j] % 100 >= 0 && board[i][j] % 100 < 16) {
                     for (int k = 0; k < neighbor_value.length; k++) {
                         if (neighbor_value[k] % 100 == board[i][j] % 100 || neighbor_value[k] % 100 == -1) {
                             count++;
@@ -528,17 +524,30 @@ public class MainActivity extends AppCompatActivity {
                     if (count < 2 && !(board[i][j] >= 100)) return false;
                     count = 0;
                 }
-
-
-                // 周囲に同じ色がたくさんあると困る
+                */
+                /*
+                // 同じ色が３回出てくると困る
                 Arrays.sort(neighbor_color);
-                for (int k = 0; k < neighbor_color.length - 1; k++) {
-                    if (neighbor_color[k] < 0) continue; // 空欄は相手にしない
-                    if (neighbor_color[k] == neighbor_color[k + 1]) {
-                        if (k + 2 < neighbor_color.length && neighbor_color[k + 2] == neighbor_color[k]) return false; // 同じ色が３つ来ている
-                        if (board[i][j] >= 100 && neighbor_color[k] == board[i][j] % 100) return false; // 終点始点には１つしか行けない
+                for (int k = 0; k + 2 < neighbor_color.length; k++) {
+                    if (board[i][j] >= 100) continue; // 始点終点であれば３回出ても大丈夫
+                    if (neighbor_color[k] == -1) continue; // 空欄ならば３回出ても大丈夫
+                    if (neighbor_color[k] == neighbor_color[k + 1] && neighbor_color[k] == neighbor_color[k + 2]) {
+                        return false;
                     }
                 }
+                */
+
+                // 始点終点の隣に色の合うマスが存在しないと困る
+                if (board[i][j] >= 100) {
+                    boolean flag = false;
+                    for (int k = 0; k < neighbor_color.length; k++) {
+                        if (neighbor_color[k] == -1) flag = true; // 空欄があれば問題ない
+                        if (neighbor_color[k] == board[i][j] % 100) flag = true;
+                    }
+                    // Log.v("LOGIC", "flag: " + String.valueOf(flag) + "\t [row, col]: " + String.valueOf(i) + " " + String.valueOf(j) + "\n");
+                    if (!flag) return false;
+                }
+
             }
         }
 
