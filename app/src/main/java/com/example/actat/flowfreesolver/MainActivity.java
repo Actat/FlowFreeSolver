@@ -348,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
     boolean solveProblem() {
         if (isBoardSolved()) return true;
         if (isBoardFilled() && !isBoardSolved()) return false;
+        if (!isBoardQualified()) return false;
 
         // 次に調べるマスを決める
         int row = -1, col = -1;
@@ -369,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             board[row][col] = i;
             Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
             // button[row * 5 + col].setBackgroundResource(button_rect[i]);
-            if (isBoardQualified() && solveProblem()) {
+            if (solveProblem()) {
                 return true;
             }
         }
