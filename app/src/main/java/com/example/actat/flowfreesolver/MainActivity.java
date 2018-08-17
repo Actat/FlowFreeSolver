@@ -345,13 +345,8 @@ public class MainActivity extends AppCompatActivity {
 
     // solve problems
     boolean solveProblem() {
-        if (isBoardFilled()) {
-            if (isBoardQualified()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        if (isBoardSolved()) return true;
+        if (isBoardFilled() && !isBoardSolved()) return false;
 
         // 次に調べるマスを決める
         int row = -1, col = -1;
@@ -367,12 +362,13 @@ public class MainActivity extends AppCompatActivity {
             // Log.v("SOLVE_LOGIC", "isBoardFilled() has problem");
             return false;
         }
+
         // マスに色を与えて次に進む
         for (int i = 0; i < selectCount / 2; i++) {
             board[row][col] = i;
             Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
             // button[row * 5 + col].setBackgroundResource(button_rect[i]);
-            if (solveProblem()) {
+            if (isBoardQualified() && solveProblem()) {
                 return true;
             }
         }
@@ -387,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-    private boolean isBoardQualified () {
+    private boolean isBoardSolved () {
         if (!isBoardFilled()) return false;
 
         // left up
@@ -501,6 +497,103 @@ public class MainActivity extends AppCompatActivity {
                     if (board[i][j + 1] % 100 == board[i][j] % 100) cnt++;
                     if (board[i + 1][j] % 100 == board[i][j] % 100) cnt++;
                     if (cnt != 2) return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    private boolean isBoardQualified () {
+        /*
+        // left up
+        if (board[0][0] >= 100) {
+            if (board[0][1] % 100 == board[0][0] % 100 && board[1][0] % 100 == board[0][0] % 100) return false;
+        } else {
+        }
+        // right up
+        if (board[0][4] >= 100) {
+            if (board[0][3] % 100 == board[0][4] % 100 && board[1][4] % 100 == board[0][4] % 100) return false;
+        } else {
+        }
+        // left below
+        if (board[4][0] >= 100) {
+            if (board[4][1] % 100 == board[4][0] % 100 && board[3][0] % 100 == board[4][0] % 100) return false;
+        } else {
+        }
+        // right below
+        if (board[4][4] >= 100) {
+            if (board[4][3] % 100 == board[4][4] % 100 && board[3][4] % 100 == board[4][4] % 100) return false;
+        } else {
+        }*/
+
+        /*
+        // up
+        for (int i = 1; i < 4; i++) {
+            int cnt = 0;
+            if (board[0][i - 1] % 100 == board[0][i] % 100) cnt++;
+            if (board[0 + 1][i] % 100 == board[0][i] % 100) cnt++;
+            if (board[0][i + 1] % 100 == board[0][i] % 100) cnt++;
+
+            if (board[0][i] >= 100) {
+                if (cnt > 1) return false;
+            } else {
+                if (cnt > 2) return false;
+            }
+        }
+        // below
+        for (int i = 1; i < 4; i++) {
+            int cnt = 0;
+            if (board[i - 1][4] % 100 == board[i][4] % 100) cnt++;
+            if (board[i][4 - 1] % 100 == board[i][4] % 100) cnt++;
+            if (board[i + 1][4] % 100 == board[i][4] % 100) cnt++;
+
+            if (board[i][4] >= 100) {
+                if (cnt > 1) return false;
+            } else {
+                if (cnt > 2) return false;
+            }
+        }
+        // left
+        for (int j = 1; j < 4; j++) {
+            int cnt = 0;
+            if (board[0][j - 1] % 100 == board[0][j] % 100) cnt++;
+            if (board[0][j + 1] % 100 == board[0][j] % 100) cnt++;
+            if (board[0 + 1][j] % 100 == board[0][j] % 100) cnt++;
+
+            if (board[0][j] >= 100) {
+                if (cnt > 1) return false;
+            } else {
+                if (cnt > 2) return false;
+            }
+        }
+        // right
+        for (int j = 1; j < 4; j++) {
+            int cnt = 0;
+            if (board[4][j - 1] % 100 == board[4][j] % 100) cnt++;
+            if (board[4][j + 1] % 100 == board[4][j] % 100) cnt++;
+            if (board[4 - 1][j] % 100 == board[4][j] % 100) cnt++;
+
+            if (board[4][j] >= 100) {
+                if (cnt > 1) return false;
+            } else {
+                if (cnt > 2) return false;
+            }
+        }*/
+
+        // center
+        for (int i = 1; i < 4; i++) {
+            for (int j = 1; j < 4; j++) {
+                int cnt = 0;
+                if (board[i - 1][j] % 100 == board[i][j] % 100) cnt++;
+                if (board[i][j - 1] % 100 == board[i][j] % 100) cnt++;
+                if (board[i][j + 1] % 100 == board[i][j] % 100) cnt++;
+                if (board[i + 1][j] % 100 == board[i][j] % 100) cnt++;
+                Log.v("LOGIC", "i: " + String.valueOf(-1 % 100) + "\tj: " +String.valueOf(j) + "\tcnt: " + String.valueOf(cnt));
+
+                if (board[i][j] >= 100) {
+                    if (cnt > 1) return false;
+                } else {
+                    if (cnt > 2) return false;
                 }
             }
         }
