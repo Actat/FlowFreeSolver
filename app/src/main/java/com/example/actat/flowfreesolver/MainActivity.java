@@ -354,13 +354,13 @@ public class MainActivity extends AppCompatActivity {
 
         // 埋まっているのに解けていないということはダメ
         if (isBoardFilled() && !isBoardSolved()) {
-            Log.v("LOGIC", "Board is filled but not solved. return false");
+            // Log.v("LOGIC", "Board is filled but not solved. return false");
             return false;
         }
 
         // まるでダメなら引き返す
         if (!isBoardQualified()) {
-            Log.v("LOGIC", "There is no future. return false");
+            // Log.v("LOGIC", "There is no future. return false");
             return false;
         }
 
@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if (row == -1 || col == -1) {
-                Log.v("SOLVE_LOGIC", "next box is not selected...");
+                // Log.v("SOLVE_LOGIC", "next box is not selected...");
                 return false;
             }
         }
@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
             if (solveProblem()) {
                 return true;
             } else {
-                Log.v("LOGIC", "This color is not good. Try next.");
+                // Log.v("LOGIC", "This color is not good. Try next.");
                 continue;
             }
         }
