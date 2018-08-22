@@ -346,7 +346,6 @@ public class MainActivity extends AppCompatActivity {
         if (isBoardFilled() && !isBoardSolved()) return false;
 
         // 次に調べるマスを決める
-
         int row = -1, col = -1;
         {
             int min = 4;
@@ -369,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if (row == -1 || col == -1) {
-                // Log.v("SOLVE_LOGIC", "isBoardFilled() has problem");
+                Log.v("SOLVE_LOGIC", "next box is not selected...");
                 return false;
             }
         }
@@ -378,10 +377,11 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < selectCount / 2; i++) {
             board[row][col] = i;
             // Log.v("SOLVE_LOGIC", "row: " + String.valueOf(row) + ",\tcol: " + String.valueOf(col) + ",\ti: " + String.valueOf(i));
-            if (isBoardQualified()) {
-                if (solveProblem()) {
-                    return true;
-                }
+            if (solveProblem()) {
+                return true;
+            } else {
+               //  Log.v("LOGIC", "This color is not good. Try next.");
+                continue;
             }
         }
         board[row][col] = -1;
