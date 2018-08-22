@@ -507,65 +507,75 @@ public class MainActivity extends AppCompatActivity {
     private boolean isBoardQualified () {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                // Log.v("LOGIC", "[i,j]: " + String.valueOf(i) + ", " + String.valueOf(j) + "\n");
-                int count = 0;
-                int[] neighbor_value = {-2, -2, -2, -2};
-                int[] neighbor_color = {-2, -2, -2, -2};
-                if (i - 1 >= 0) {
-                    neighbor_value[0] = board[i - 1][j];
-                    neighbor_color[0] = board[i - 1][j] % 100;
-                }
-                if (j - 1 >= 0) {
-                    neighbor_value[1] = board[i][j - 1];
-                    neighbor_color[1] = board[i][j - 1] % 100;
-                }
-                if (i + 1 < 5) {
-                    neighbor_value[2] = board[i + 1][j];
-                    neighbor_color[2] = board[i + 1][j] % 100;
-                }
-                if (j + 1 < 5) {
-                    neighbor_value[3] = board[i][j + 1];
-                    neighbor_color[3] = board[i][j + 1] % 100;
-                }
-                /*
-                // 色が決まっているのにneighbor_valueに-1も同じ色も存在しないと困る
-                if (board[i][j] % 100 >= 0 && board[i][j] % 100 < 16) {
-                    for (int k = 0; k < neighbor_value.length; k++) {
-                        if (neighbor_value[k] % 100 == board[i][j] % 100 || neighbor_value[k] % 100 == -1) {
-                            count++;
+                // 始点終点の場合
+                if (board[i][j] >= 100) {
+                    // 2本以上生えている場合はfalse
+                    {
+                        int count = 0;
+                        if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
+                        if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
+                        if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                        if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+
+                        if (count > 1) return false;
+                    }
+                    // 周囲が埋まっているのに何も生えていない場合はfalse
+                    {
+                        // 周囲が埋まっているか確認
+                        int blank = 0;
+                        if (i - 1 >= 0 && board[i - 1][j] == -1) blank++;
+                        if (j - 1 >= 0 && board[i][j - 1] == -1) blank++;
+                        if (j + 1 < 5 && board[i][j + 1] == -1) blank++;
+                        if (i + 1 < 5 && board[i + 1][j] == -1) blank++;
+                        if (blank == 0) {
+                            // 生えているかどうか確認
+                            int count = 0;
+                            if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
+                            if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
+                            if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                            if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+
+                            if (count < 1) return false;
                         }
                     }
-                    if (count < 1) return false;
-                    if (count < 2 && !(board[i][j] >= 100)) return false;
-                    count = 0;
-                }
-                */
-                /*
-                // 同じ色が３回出てくると困る
-                Arrays.sort(neighbor_color);
-                for (int k = 0; k + 2 < neighbor_color.length; k++) {
-                    if (board[i][j] >= 100) continue; // 始点終点であれば３回出ても大丈夫
-                    if (neighbor_color[k] == -1) continue; // 空欄ならば３回出ても大丈夫
-                    if (neighbor_color[k] == neighbor_color[k + 1] && neighbor_color[k] == neighbor_color[k + 2]) {
-                        return false;
-                    }
-                }
-                */
 
-                // 始点終点の隣に色の合うマスが存在しないと困る
-                if (board[i][j] >= 100) {
-                    boolean flag = false;
-                    for (int k = 0; k < neighbor_color.length; k++) {
-                        if (neighbor_color[k] == -1) flag = true; // 空欄があれば問題ない
-                        if (neighbor_color[k] == board[i][j] % 100) flag = true;
-                    }
-                    // Log.v("LOGIC", "flag: " + String.valueOf(flag) + "\t [row, col]: " + String.valueOf(i) + " " + String.valueOf(j) + "\n");
-                    if (!flag) return false;
                 }
 
+                // マスの場合
+                if (board[i][j] < 100) {
+                    // 周囲の3マス以上が1色になっている場合はfalse
+                    {
+                        // 3マスの選び方は4通り
+                        if (i - 1 >= 0 && j - 1 >= 0 && j + 1 < 5 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i][j + 1] % 100) return false;
+                        if (j - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i][j - 1] % 100 == board[i][j + 1] % 100 && board[i][j - 1] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i - 1][j] % 100 == board[i][j + 1] % 100 && board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j - 1 >= 0 && i + 1 < 5 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
+                    }
+
+                    // 周囲が埋まっているが同じ色２つと接していない
+                    {
+                        // 周囲が埋まっているか確認
+                        int blank = 0;
+                        if (i - 1 >= 0 && board[i - 1][j] == -1) blank++;
+                        if (j - 1 >= 0 && board[i][j - 1] == -1) blank++;
+                        if (j + 1 < 5 && board[i][j + 1] == -1) blank++;
+                        if (i + 1 < 5 && board[i + 1][j] == -1) blank++;
+                        if (blank == 0) {
+                            // 同じ色2つと接しているか確認
+                            int count = 0;
+                            if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
+                            if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
+                            if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                            if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+
+                            if (count != 2) return false;
+                        }
+                    }
+                }
             }
         }
 
+        // 特に悪い部分が見つからなければtrue
         return true;
     }
 }
