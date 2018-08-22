@@ -342,8 +342,13 @@ public class MainActivity extends AppCompatActivity {
 
     // solve problems
     boolean solveProblem() {
+        // 解決していたらtrueを返す
         if (isBoardSolved()) return true;
+
+        // 埋まっているのに解けていないということはダメ
         if (isBoardFilled() && !isBoardSolved()) return false;
+
+        // まるでダメなら引き返す
         if (!isBoardQualified()) return false;
 
         // 次に調べるマスを決める
