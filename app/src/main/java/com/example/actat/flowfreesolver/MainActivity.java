@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
-                // Log.v("SOLVE", "button_solve clicked");
-                // Log.v("ans", String.valueOf(solveProblem()));
+                Log.v("SOLVE", "button_solve clicked");
                 AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Object... objects) {
@@ -386,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
             if (solveProblem()) {
                 return true;
             } else {
-               //  Log.v("LOGIC", "This color is not good. Try next.");
+                Log.v("LOGIC", "This color is not good. Try next.");
                 continue;
             }
         }
