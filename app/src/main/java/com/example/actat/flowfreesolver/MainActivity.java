@@ -344,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
     boolean solveProblem() {
         if (isBoardSolved()) return true;
         if (isBoardFilled() && !isBoardSolved()) return false;
+        if (!isBoardQualified()) return false;
 
         // 次に調べるマスを決める
         int row = -1, col = -1;
