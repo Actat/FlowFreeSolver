@@ -534,6 +534,19 @@ public class MainActivity extends AppCompatActivity {
                             if (count != 2) return false;
                         }
                     }
+
+                    // 最大限努力しても同じ色2つと接することができない場合はfalse
+                    // すでに同じ色になっている部分と空欄を合わせて2に到達しない場合はfalse
+                    {
+                        int count = 0;
+                        if (i - 1 >= 0 && board[i][j] != -1 && (board[i - 1][j] == -1 || board[i - 1][j] % 100 == board[i][j] % 100)) count++;
+                        if (j - 1 >= 0 && board[i][j] != -1 && (board[i][j - 1] == -1 || board[i][j - 1] % 100 == board[i][j] % 100)) count++;
+                        if (i + 1 < 5 && board[i][j] != -1 && (board[i + 1][j] == -1 || board[i + 1][j] % 100 == board[i][j] % 100)) count++;
+                        if (j + 1 < 5 && board[i][j] != -1 && (board[i][j + 1] == -1 || board[i][j + 1] % 100 == board[i][j] % 100)) count++;
+
+                        // Log.v("LOGIC", "forword check" + "count: " + String.valueOf(count));
+                        if (board[i][j] != -1 && count < 2) return false;
+                    }
                     // Log.v("LOGIC", "checks for box is finished");
                 }
             }
