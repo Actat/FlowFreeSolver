@@ -570,10 +570,10 @@ public class MainActivity extends AppCompatActivity {
                     {
                         // Log.v("LOGIC", "3 box check start");
                         // 3マスの選び方は4通り
-                        if (i - 1 >= 0 && j - 1 >= 0 && j + 1 < 5 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i][j + 1] % 100) return false;
-                        if (j - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i][j - 1] % 100 == board[i][j + 1] % 100 && board[i][j - 1] % 100 == board[i + 1][j] % 100) return false;
-                        if (i - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i - 1][j] % 100 == board[i][j + 1] % 100 && board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
-                        if (i - 1 >= 0 && j - 1 >= 0 && i + 1 < 5 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j - 1 >= 0 && j + 1 < 5 && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i][j + 1] % 100) return false;
+                        if (j - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i][j - 1] != -1 && board[i][j - 1] % 100 == board[i][j + 1] % 100 && board[i][j - 1] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j + 1] % 100 && board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j - 1 >= 0 && i + 1 < 5 && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
                     }
 
                     // 周囲が埋まっているが同じ色２つと接していない
@@ -585,8 +585,9 @@ public class MainActivity extends AppCompatActivity {
                         if (j - 1 >= 0 && board[i][j - 1] == -1) blank++;
                         if (j + 1 < 5 && board[i][j + 1] == -1) blank++;
                         if (i + 1 < 5 && board[i + 1][j] == -1) blank++;
-                        if (blank == 0) {
+                        if (blank == 0 && board[i][j] != -1) {
                             // 同じ色2つと接しているか確認
+                            // 注目しているマスに色が入っている場合はその色との比較をすることを考える
                             int count = 0;
                             if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
                             if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
