@@ -342,13 +342,26 @@ public class MainActivity extends AppCompatActivity {
     // solve problems
     boolean solveProblem() {
         // 解決していたらtrueを返す
-        if (isBoardSolved()) return true;
+        if (isBoardSolved()) {
+            // Log.v("LOGIC", "Board is Solved. return true");
+            return true;
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {}
 
         // 埋まっているのに解けていないということはダメ
-        if (isBoardFilled() && !isBoardSolved()) return false;
+        if (isBoardFilled() && !isBoardSolved()) {
+            Log.v("LOGIC", "Board is filled but not solved. return false");
+            return false;
+        }
 
         // まるでダメなら引き返す
-        if (!isBoardQualified()) return false;
+        if (!isBoardQualified()) {
+            Log.v("LOGIC", "There is no future. return false");
+            return false;
+        }
 
         // 次に調べるマスを決める
         int row = -1, col = -1;
@@ -521,7 +534,10 @@ public class MainActivity extends AppCompatActivity {
                         if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
                         if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
 
-                        if (count > 1) return false;
+                        if (count > 1) {
+                            // Log.v("LOGIC", "Two lines start from this dot. return false");
+                            return false;
+                        }
                     }
                     // 周囲が埋まっているのに何も生えていない場合はfalse
                     {
@@ -539,7 +555,10 @@ public class MainActivity extends AppCompatActivity {
                             if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
                             if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
 
-                            if (count < 1) return false;
+                            if (count < 1) {
+                                // Log.v("LOGIC", "No line starts from this dot. return false");
+                                return false;
+                            }
                         }
                     }
 
@@ -549,6 +568,7 @@ public class MainActivity extends AppCompatActivity {
                 if (board[i][j] < 100) {
                     // 周囲の3マス以上が1色になっている場合はfalse
                     {
+                        // Log.v("LOGIC", "3 box check start");
                         // 3マスの選び方は4通り
                         if (i - 1 >= 0 && j - 1 >= 0 && j + 1 < 5 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i][j + 1] % 100) return false;
                         if (j - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i][j - 1] % 100 == board[i][j + 1] % 100 && board[i][j - 1] % 100 == board[i + 1][j] % 100) return false;
@@ -558,6 +578,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // 周囲が埋まっているが同じ色２つと接していない
                     {
+                        // Log.v("LOGIC", "dead end check start");
                         // 周囲が埋まっているか確認
                         int blank = 0;
                         if (i - 1 >= 0 && board[i - 1][j] == -1) blank++;
@@ -575,6 +596,7 @@ public class MainActivity extends AppCompatActivity {
                             if (count != 2) return false;
                         }
                     }
+                    // Log.v("LOGIC", "checks for box is finished");
                 }
             }
         }
