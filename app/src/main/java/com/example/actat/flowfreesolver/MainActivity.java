@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
                     protected void onPostExecute(Boolean result) {
                         Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
                         if (!result) {
-                            board_init();
-                            button_init();
+                            // board_init();
+                            // button_init();
                         }
                         reDraw();
                     }
