@@ -367,21 +367,42 @@ public class MainActivity extends AppCompatActivity {
         // 次に調べるマスを決める
         int row = -1, col = -1;
         {
-            int min = 4;
+            int point_max = 0;
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     if (board[i][j] == -1) {
-                        // 周囲の空いているマスを数える
-                        int count = 0;
-                        if (i - 1 >= 0 && board[i - 1][j] == -1) count++;
-                        if (j - 1 >= 0 && board[i][j - 1] == -1) count++;
-                        if (i + 1 < 5 && board[i + 1][j] == -1) count++;
-                        if (j + 1 < 5 && board[i][j + 1] == -1) count++;
-                        // 空きマスが最小（タイ）のところから探索を行う
-                        if (count <= min) {
+                        // pointの高いマスを選択する
+                        int point = 0;
+
+                        // 始点終点の隣はポイントが高い
+                        if (i - 1 >= 0 && board[i - 1][j] >= 100) point++;
+                        if (j - 1 >= 0 && board[i][j - 1] >= 100) point++;
+                        if (i + 1 < 5 && board[i + 1][j] >= 100) point++;
+                        if (j + 1 < 5 && board[i][j + 1] >= 100) point++;
+
+                        // すでに色がついているマスの隣はポイントが高い
+                        if (i - 1 >= 0 && board[i - 1][j] >= 0) point++;
+                        if (j - 1 >= 0 && board[i][j - 1] >= 0) point++;
+                        if (i + 1 < 5 && board[i + 1][j] >= 0) point++;
+                        if (j + 1 < 5 && board[i][j + 1] >= 0) point++;
+
+                        // 周囲の空欄が少ないとポイントが高い
+                        point += 4; // 負の数にならないための下駄
+                        if (i - 1 >= 0 && board[i - 1][j] < 0) point--;
+                        if (j - 1 >= 0 && board[i][j - 1] < 0) point--;
+                        if (i + 1 < 5 && board[i + 1][j] < 0) point--;
+                        if (j + 1 < 5 && board[i][j + 1] < 0) point--;
+
+                        // 壁沿いだとポイントが高い
+                        if (i - 1 < 0) point++;
+                        if (j - 1 < 0) point++;
+                        if (i + 1 >= 5) point++;
+                        if (j + 1 >= 5) point++;
+
+                        if (point >= point_max) {
+                            point_max = point;
                             row = i;
                             col = j;
-                            min = count;
                         }
                     }
                 }
