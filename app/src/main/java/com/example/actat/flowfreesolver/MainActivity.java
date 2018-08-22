@@ -347,8 +347,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        // debug用のdelay
         try {
-            Thread.sleep(500);
+            Thread.sleep(200);
         } catch (InterruptedException e) {}
 
         // 埋まっているのに解けていないということはダメ
