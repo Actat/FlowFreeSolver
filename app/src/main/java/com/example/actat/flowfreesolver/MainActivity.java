@@ -348,9 +348,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // debug用のdelay
+        /*
         try {
             Thread.sleep(200);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {}*/
 
         // 埋まっているのに解けていないということはダメ
         if (isBoardFilled() && !isBoardSolved()) {
