@@ -108,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
         button_ring[4] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_orange, null);
         button_ring[5] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_cyan, null);
         button_ring[6] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_magenta, null);
-        button_ring[7] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_pink, null);
+        button_ring[7] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_maroon, null);
         button_ring[8] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_purple, null);
-        button_ring[9] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_tan, null);
-        button_ring[10] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_maroon, null);
+        button_ring[9] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_white, null);
+        button_ring[10] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_tan, null);
         button_ring[11] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_brightgreen, null);
         button_ring[12] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_darkblue, null);
-        button_ring[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_white, null);
+        button_ring[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_pink, null);
         button_ring[14] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_darkcyan, null);
         button_ring[15] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_gray, null);
 
@@ -125,13 +125,13 @@ public class MainActivity extends AppCompatActivity {
         button_rect[4] =  R.drawable.rect_orange;
         button_rect[5] =  R.drawable.rect_cyan;
         button_rect[6] =  R.drawable.rect_magenta;
-        button_rect[7] =  R.drawable.rect_pink;
+        button_rect[7] =  R.drawable.rect_maroon;
         button_rect[8] =  R.drawable.rect_purple;
-        button_rect[9] =  R.drawable.rect_tan;
-        button_rect[10] = R.drawable.rect_maroon;
+        button_rect[9] =  R.drawable.rect_white;
+        button_rect[10] = R.drawable.rect_tan;
         button_rect[11] = R.drawable.rect_brightgreen;
         button_rect[12] = R.drawable.rect_darkblue;
-        button_rect[13] = R.drawable.rect_white;
+        button_rect[13] = R.drawable.rect_pink;
         button_rect[14] = R.drawable.rect_darkcyan;
         button_rect[15] = R.drawable.rect_gray;
 
