@@ -316,6 +316,8 @@ public class MainActivity extends AppCompatActivity {
         int col = num % SIZE;
         int color = 0;
 
+        if (board[row][col] != -1) return;
+
         if (selectCount % 2 == 0) {
             color = selectCount / 2;
         } else {
