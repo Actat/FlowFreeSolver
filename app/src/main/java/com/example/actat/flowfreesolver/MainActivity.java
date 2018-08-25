@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
-                Log.v("RESET", "button_reset clicked");
+                // Log.v("RESET", "button_reset clicked");
                 board_init();
                 button_init();
                 reDraw();
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
-                Log.v("SOLVE", "button_solve clicked");
+                // Log.v("SOLVE", "button_solve clicked");
                 startTime = System.currentTimeMillis();
                 AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
                     @Override
