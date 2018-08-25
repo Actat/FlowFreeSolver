@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     int board[][] = new int[SIZE][SIZE];
     int selectCount = 0;
 
+    long startTime, finishTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // clickされた時の処理
                 Log.v("SOLVE", "button_solve clicked");
+                startTime = System.currentTimeMillis();
                 AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Object... objects) {
@@ -70,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     protected void onPostExecute(Boolean result) {
-                        Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
+                        // Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
+                        finishTime = System.currentTimeMillis();
                         if (result) {
-                            // board_init();
-                            // button_init();
+                            Toast.makeText(getApplicationContext(), "solved in " + String.valueOf(finishTime - startTime) + " ms", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "no solution found", Toast.LENGTH_LONG).show();
                         }
