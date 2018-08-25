@@ -2,14 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="false" android:state_pressed="false">
         <shape android:shape="rectangle">
-            <stroke android:width="4dp" android:color="#b0b0b0" />
-            <solid android:color="#000000"/>
+            <stroke android:width="4dp" android:color="@color/colorGrid" />
+            <solid android:color="@color/colorBackground"/>
         </shape>
     </item>
 
     <item>
         <shape android:shape="ring">
-            <solid android:color="#ff00ff"/>
+            <solid android:color="@color/colorMagenta"/>
         </shape>
     </item>
 </layer-list>
