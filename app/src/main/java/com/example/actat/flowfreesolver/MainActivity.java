@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Timer;
@@ -70,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Boolean result) {
                         Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
-                        if (!result) {
+                        if (result) {
                             // board_init();
                             // button_init();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "no solution found", Toast.LENGTH_LONG).show();
                         }
                         reDraw();
                     }
