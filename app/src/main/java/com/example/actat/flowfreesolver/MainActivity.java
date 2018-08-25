@@ -16,12 +16,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
+    static final int SIZE = 5;
     int button_default;
     Drawable button_ring[] = new Drawable[16];
     int button_rect[] = new int[16];
-    Button button[] = new Button[25];
+    Button button[] = new Button[SIZE * SIZE];
 
-    int board[][] = new int[5][5];
+    int board[][] = new int[SIZE][SIZE];
     int selectCount = 0;
 
     @Override
@@ -84,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     // init
     private void board_init() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 board[i][j] = -1;
             }
         }
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         button[23] = (Button)findViewById(R.id.button24);
         button[24] = (Button)findViewById(R.id.button25);
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < SIZE * SIZE; i++) {
             button[i].setBackgroundResource(button_default);
         }
 
@@ -311,8 +312,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void button_pushed(int num) {
-        int row = num / 5;
-        int col = num % 5;
+        int row = num / SIZE;
+        int col = num % SIZE;
         int color = 0;
 
         if (selectCount % 2 == 0) {
@@ -328,8 +329,8 @@ public class MainActivity extends AppCompatActivity {
 
     // draw
     private void reDraw() {
-        for (int i = 0; i < 25; i++) {
-            int tmp = board[i / 5][i % 5];
+        for (int i = 0; i < SIZE * SIZE; i++) {
+            int tmp = board[i / SIZE][i % SIZE];
             if (tmp >= 0 && tmp < 16) button[i].setBackgroundResource(button_rect[tmp]);
             if (tmp >= 100 && tmp < 116) button[i].setBackground(button_ring[tmp % 100]);
             if (tmp == -1) button[i].setBackgroundResource(button_default);
@@ -369,8 +370,8 @@ public class MainActivity extends AppCompatActivity {
         int row = -1, col = -1;
         {
             int point_max = 0;
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
                     if (board[i][j] == -1) {
                         // pointの高いマスを選択する
                         int point = 0;
@@ -378,27 +379,27 @@ public class MainActivity extends AppCompatActivity {
                         // 始点終点の隣はポイントが高い
                         if (i - 1 >= 0 && board[i - 1][j] >= 100) point++;
                         if (j - 1 >= 0 && board[i][j - 1] >= 100) point++;
-                        if (i + 1 < 5 && board[i + 1][j] >= 100) point++;
-                        if (j + 1 < 5 && board[i][j + 1] >= 100) point++;
+                        if (i + 1 < SIZE && board[i + 1][j] >= 100) point++;
+                        if (j + 1 < SIZE && board[i][j + 1] >= 100) point++;
 
                         // すでに色がついているマスの隣はポイントが高い
                         if (i - 1 >= 0 && board[i - 1][j] >= 0) point++;
                         if (j - 1 >= 0 && board[i][j - 1] >= 0) point++;
-                        if (i + 1 < 5 && board[i + 1][j] >= 0) point++;
-                        if (j + 1 < 5 && board[i][j + 1] >= 0) point++;
+                        if (i + 1 < SIZE && board[i + 1][j] >= 0) point++;
+                        if (j + 1 < SIZE && board[i][j + 1] >= 0) point++;
 
                         // 周囲の空欄が少ないとポイントが高い
                         point += 4; // 負の数にならないための下駄
                         if (i - 1 >= 0 && board[i - 1][j] < 0) point--;
                         if (j - 1 >= 0 && board[i][j - 1] < 0) point--;
-                        if (i + 1 < 5 && board[i + 1][j] < 0) point--;
-                        if (j + 1 < 5 && board[i][j + 1] < 0) point--;
+                        if (i + 1 < SIZE && board[i + 1][j] < 0) point--;
+                        if (j + 1 < SIZE && board[i][j + 1] < 0) point--;
 
                         // 壁沿いだとポイントが高い
                         if (i - 1 < 0) point++;
                         if (j - 1 < 0) point++;
-                        if (i + 1 >= 5) point++;
-                        if (j + 1 >= 5) point++;
+                        if (i + 1 >= SIZE) point++;
+                        if (j + 1 >= SIZE) point++;
 
                         if (point >= point_max) {
                             point_max = point;
@@ -429,8 +430,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
     private boolean isBoardFilled () {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 if (board[i][j] <0) return false;
             }
         }
@@ -442,13 +443,13 @@ public class MainActivity extends AppCompatActivity {
 
         // 必要な数のマスとつながっていない場合はfalse
         {
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
                     int count = 0;
                     if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
                     if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
-                    if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
-                    if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                    if (i + 1 < SIZE && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+                    if (j + 1 < SIZE && board[i][j + 1] % 100 == board[i][j] % 100) count++;
 
                     if (board[i][j] >= 100 && count != 1) return false;
                     if (board[i][j] < 100 && count != 2) return false;
@@ -460,8 +461,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     private boolean isBoardQualified () {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 // 始点終点の場合
                 if (board[i][j] >= 100) {
                     // 2本以上生えている場合はfalse
@@ -469,8 +470,8 @@ public class MainActivity extends AppCompatActivity {
                         int count = 0;
                         if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
                         if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
-                        if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
-                        if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+                        if (j + 1 < SIZE && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                        if (i + 1 < SIZE && board[i + 1][j] % 100 == board[i][j] % 100) count++;
 
                         if (count > 1) {
                             // Log.v("LOGIC", "Two lines start from this dot. return false");
@@ -483,15 +484,15 @@ public class MainActivity extends AppCompatActivity {
                         int blank = 0;
                         if (i - 1 >= 0 && board[i - 1][j] == -1) blank++;
                         if (j - 1 >= 0 && board[i][j - 1] == -1) blank++;
-                        if (j + 1 < 5 && board[i][j + 1] == -1) blank++;
-                        if (i + 1 < 5 && board[i + 1][j] == -1) blank++;
+                        if (j + 1 < SIZE && board[i][j + 1] == -1) blank++;
+                        if (i + 1 < SIZE && board[i + 1][j] == -1) blank++;
                         if (blank == 0) {
                             // 生えているかどうか確認
                             int count = 0;
                             if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
                             if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
-                            if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
-                            if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+                            if (j + 1 < SIZE && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                            if (i + 1 < SIZE && board[i + 1][j] % 100 == board[i][j] % 100) count++;
 
                             if (count < 1) {
                                 // Log.v("LOGIC", "No line starts from this dot. return false");
@@ -508,10 +509,10 @@ public class MainActivity extends AppCompatActivity {
                     {
                         // Log.v("LOGIC", "3 box check start");
                         // 3マスの選び方は4通り
-                        if (i - 1 >= 0 && j - 1 >= 0 && j + 1 < 5 && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i][j + 1] % 100) return false;
-                        if (j - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i][j - 1] != -1 && board[i][j - 1] % 100 == board[i][j + 1] % 100 && board[i][j - 1] % 100 == board[i + 1][j] % 100) return false;
-                        if (i - 1 >= 0 && j + 1 < 5 && i + 1 < 5 && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j + 1] % 100 && board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
-                        if (i - 1 >= 0 && j - 1 >= 0 && i + 1 < 5 && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j - 1 >= 0 && j + 1 < SIZE && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i][j + 1] % 100) return false;
+                        if (j - 1 >= 0 && j + 1 < SIZE && i + 1 < SIZE && board[i][j - 1] != -1 && board[i][j - 1] % 100 == board[i][j + 1] % 100 && board[i][j - 1] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j + 1 < SIZE && i + 1 < SIZE && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j + 1] % 100 && board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
+                        if (i - 1 >= 0 && j - 1 >= 0 && i + 1 < SIZE && board[i - 1][j] != -1 && board[i - 1][j] % 100 == board[i][j - 1] % 100 &&  board[i - 1][j] % 100 == board[i + 1][j] % 100) return false;
                     }
 
                     // 周囲が埋まっているが同じ色２つと接していない
@@ -521,16 +522,16 @@ public class MainActivity extends AppCompatActivity {
                         int blank = 0;
                         if (i - 1 >= 0 && board[i - 1][j] == -1) blank++;
                         if (j - 1 >= 0 && board[i][j - 1] == -1) blank++;
-                        if (j + 1 < 5 && board[i][j + 1] == -1) blank++;
-                        if (i + 1 < 5 && board[i + 1][j] == -1) blank++;
+                        if (j + 1 < SIZE && board[i][j + 1] == -1) blank++;
+                        if (i + 1 < SIZE && board[i + 1][j] == -1) blank++;
                         if (blank == 0 && board[i][j] != -1) {
                             // 同じ色2つと接しているか確認
                             // 注目しているマスに色が入っている場合はその色との比較をすることを考える
                             int count = 0;
                             if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
                             if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
-                            if (j + 1 < 5 && board[i][j + 1] % 100 == board[i][j] % 100) count++;
-                            if (i + 1 < 5 && board[i + 1][j] % 100 == board[i][j] % 100) count++;
+                            if (j + 1 < SIZE && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                            if (i + 1 < SIZE && board[i + 1][j] % 100 == board[i][j] % 100) count++;
 
                             if (count != 2) return false;
                         }
@@ -542,8 +543,8 @@ public class MainActivity extends AppCompatActivity {
                         int count = 0;
                         if (i - 1 >= 0 && board[i][j] != -1 && (board[i - 1][j] == -1 || board[i - 1][j] % 100 == board[i][j] % 100)) count++;
                         if (j - 1 >= 0 && board[i][j] != -1 && (board[i][j - 1] == -1 || board[i][j - 1] % 100 == board[i][j] % 100)) count++;
-                        if (i + 1 < 5 && board[i][j] != -1 && (board[i + 1][j] == -1 || board[i + 1][j] % 100 == board[i][j] % 100)) count++;
-                        if (j + 1 < 5 && board[i][j] != -1 && (board[i][j + 1] == -1 || board[i][j + 1] % 100 == board[i][j] % 100)) count++;
+                        if (i + 1 < SIZE && board[i][j] != -1 && (board[i + 1][j] == -1 || board[i + 1][j] % 100 == board[i][j] % 100)) count++;
+                        if (j + 1 < SIZE && board[i][j] != -1 && (board[i][j + 1] == -1 || board[i][j + 1] % 100 == board[i][j] % 100)) count++;
 
                         // Log.v("LOGIC", "forword check" + "count: " + String.valueOf(count));
                         if (board[i][j] != -1 && count < 2) return false;
