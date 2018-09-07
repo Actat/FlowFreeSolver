@@ -18,10 +18,10 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     static final int SIZE = 5;
-    int button_default;
-    Drawable button_ring[] = new Drawable[16];
-    int button_rect[] = new int[16];
-    Button button[] = new Button[SIZE * SIZE];
+    // int button_default;
+    // Drawable button_ring[] = new Drawable[16];
+    // int button_rect[] = new int[16];
+    // Button button[] = new Button[SIZE * SIZE];
 
     int board[][] = new int[SIZE][SIZE];
     int selectCount = 0;
@@ -33,16 +33,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        board_init();
+        // board_init();
         // Log.v("INIT", "board_init finished");
-        button_init();
+        // button_init();
         // Log.v("INIT", "button_init finished");
 
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             @Override
             public void run() {
-                reDraw();
+                // reDraw();
                 handler.postDelayed(this, 50);
             }
         };
@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // clickされた時の処理
                 // Log.v("RESET", "button_reset clicked");
-                board_init();
-                button_init();
-                reDraw();
+                // board_init();
+                // button_init();
+                // reDraw();
             }
         });
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), "no solution found", Toast.LENGTH_LONG).show();
                         }
-                        reDraw();
+                        // reDraw();
                     }
                 };
                 task.execute(this);
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /*
     // init
     private void board_init() {
         for (int i = 0; i < SIZE; i++) {
@@ -334,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
         board[row][col] = color + 100;
         button[num].setBackground(button_ring[color]);
     }
-
+    
     // draw
     private void reDraw() {
         for (int i = 0; i < SIZE * SIZE; i++) {
@@ -347,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Log.v("DRAW", "reDraw executed");
     }
+    */
 
     // solve problems
     boolean solveProblem() {
