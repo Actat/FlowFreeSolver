@@ -6,11 +6,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class CanvasView extends View {
 
+    private MainActivity mainActivity;
     private Paint paint;
     private int boardSize = 5;
     private float boardL, boardR, boardT, boardB;
@@ -32,6 +34,10 @@ public class CanvasView extends View {
     public CanvasView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init_CanvasView();
+    }
+
+    public void setMainActivity(MainActivity ma) {
+        mainActivity = ma;
     }
 
     private void init_CanvasView() {
@@ -94,6 +100,20 @@ public class CanvasView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+
+        for (int i = 0; i < boardSize; i++) {
+            if (x > boardL + frameInterval * i && x < boardL + frameInterval * (i + 1)) {
+                for (int j = 0; j < boardSize; j++) {
+                    if (y > boardT + frameInterval * j && y < boardT + frameInterval * (j + 1)) {
+                        // j行i列が押された
+                        mainActivity.button_pushed(j, i);
+                        // Log.v("tag", "x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " j: " + String.valueOf(j) + " i: " + String.valueOf(i));
+                    }
+                }
+            }
+        }
         return true;
     }
 

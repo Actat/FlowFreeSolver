@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cv = (CanvasView) findViewById(R.id.canvasview);
+        cv.setMainActivity(this);
         board_init();
         // Log.v("INIT", "board_init finished");
         // button_init();
@@ -113,10 +114,8 @@ public class MainActivity extends AppCompatActivity {
         }
         selectCount = 0;
     }
-    /*
-    private void button_pushed(int num) {
-        int row = num / SIZE;
-        int col = num % SIZE;
+
+    public void button_pushed(int row, int col) {
         int color = 0;
 
         if (board[row][col] != -1) return;
@@ -129,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
         selectCount++;
 
         board[row][col] = color + 100;
-        button[num].setBackground(button_ring[color]);
     }
-    */
+
     // draw
     private void reDraw() {
         int[][] copy = new int[SIZE][SIZE];
