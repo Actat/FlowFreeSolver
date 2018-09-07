@@ -12,6 +12,8 @@ public class CanvasView extends View {
 
     private Paint paint;
     private int size = 5;
+    private int viewHeight;
+    private int viewWidth;
 
     public CanvasView(Context context) {
         super(context);
@@ -43,7 +45,9 @@ public class CanvasView extends View {
         return true;
     }
 
-    public void drawBoard(int s) {
+    public void drawBoard(int s, int h, int w) {
         size = s;
+        viewHeight = h;
+        viewWidth = w;
     }
 }
