@@ -11,6 +11,7 @@ import android.view.View;
 public class CanvasView extends View {
 
     private Paint paint;
+    private int size = 5;
 
     public CanvasView(Context context) {
         super(context);
@@ -40,5 +41,9 @@ public class CanvasView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return true;
+    }
+
+    public void drawBoard(int s) {
+        size = s;
     }
 }
