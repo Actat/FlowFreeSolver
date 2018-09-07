@@ -17,7 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    static final int SIZE = 5;
+    int SIZE = 5;
     // int button_default;
     // Drawable button_ring[] = new Drawable[16];
     // int button_rect[] = new int[16];
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cv = (CanvasView) findViewById(R.id.canvasview);
-        // board_init();
+        board_init();
         // Log.v("INIT", "board_init finished");
         // button_init();
         // Log.v("INIT", "button_init finished");
