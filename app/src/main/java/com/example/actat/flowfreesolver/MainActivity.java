@@ -362,7 +362,13 @@ public class MainActivity extends AppCompatActivity {
             button[i].invalidate();
         }*/
 
-        cv.drawBoard(SIZE, viewH, viewW);
+        int[][] copy = new int[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                copy[i][j] = board[i][j];
+            }
+        }
+        cv.drawBoard(SIZE, viewH, viewW, copy);
     }
 
     // solve problems

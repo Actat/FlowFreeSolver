@@ -16,6 +16,7 @@ public class CanvasView extends View {
     private float boardL, boardR, boardT, boardB;
     private int boardLineWidth = 3;
     private float frameInterval = 0;
+    private int[][] boardCpoy = new int[1][1];
 
     public CanvasView(Context context) {
         super(context);
@@ -51,6 +52,22 @@ public class CanvasView extends View {
             canvas.drawLine(boardL - boardLineWidth / 2.0f, boardT + i * frameInterval, boardR + boardLineWidth / 2.0f,  boardT + i * frameInterval, paint);
         }
 
+        for (int i = 0; i < boardSize * boardSize; i++) {
+            if (boardCpoy[i / boardSize][i % boardSize] >= 0 && boardCpoy[i / boardSize][i % boardSize] < 16) {
+                // line
+                canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f),boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
+            }
+            if (boardCpoy[i / boardSize][i % boardSize] >= 100 && boardCpoy[i / boardSize][i % boardSize] < 116) {
+                // circle
+                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                canvas.drawCircle( boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.35f, paint);
+            }
+            /*
+            if (boardCpoy[i / boardSize][i % boardSize] == -1) {
+                // blank
+            } */
+        }
+
         invalidate();
     }
 
@@ -59,8 +76,9 @@ public class CanvasView extends View {
         return true;
     }
 
-    public void drawBoard(int s, int h, int w) {
+    public void drawBoard(int s, int h, int w, int[][] copy) {
         boardSize = s;
+        boardCpoy = copy;
 
         if (h > w) {
             boardL = 0 + boardLineWidth / 2.0f;
