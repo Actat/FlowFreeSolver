@@ -13,8 +13,7 @@ public class CanvasView extends View {
 
     private Paint paint;
     private int boardSize = 5;
-    private int viewH;
-    private int viewW;
+    private int boardL, boardR, boardT, boardB;
 
     public CanvasView(Context context) {
         super(context);
@@ -42,7 +41,7 @@ public class CanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         // 描画処理をここに書く
-        canvas.drawRect(0, 0, viewW, viewH, paint);
+        canvas.drawRect(boardL, boardT, boardR, boardB, paint);
 
         invalidate();
     }
@@ -54,7 +53,17 @@ public class CanvasView extends View {
 
     public void drawBoard(int s, int h, int w) {
         boardSize = s;
-        viewH = h;
-        viewW = w;
+
+        if (h > w) {
+            boardL = 0;
+            boardR = w;
+            boardT = (h - w) / 2;
+            boardB = (h + w) / 2;
+        } else {
+            boardT = 0;
+            boardB = h;
+            boardL = (w - h) / 2;
+            boardR = (w + h) / 2;
+        }
     }
 }
