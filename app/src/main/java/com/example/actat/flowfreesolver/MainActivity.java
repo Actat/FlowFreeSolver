@@ -18,10 +18,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     int SIZE = 5;
-    // int button_default;
-    // Drawable button_ring[] = new Drawable[16];
-    // int button_rect[] = new int[16];
-    // Button button[] = new Button[SIZE * SIZE];
 
     int board[][];
     int selectCount = 0;
@@ -40,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
         cv = (CanvasView) findViewById(R.id.canvasview);
         cv.setMainActivity(this);
         board_init();
-        // Log.v("INIT", "board_init finished");
-        // button_init();
-        // Log.v("INIT", "button_init finished");
 
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
@@ -58,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
-                // Log.v("RESET", "button_reset clicked");
                 board_init();
                 reDraw();
             }
@@ -85,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), "no solution found", Toast.LENGTH_LONG).show();
                         }
-                        // reDraw();
+                        reDraw();
                     }
                 };
                 task.execute(this);
