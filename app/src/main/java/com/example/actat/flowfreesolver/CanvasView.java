@@ -77,6 +77,7 @@ public class CanvasView extends View {
             canvas.drawLine(boardL - boardLineWidth / 2.0f, boardT + i * frameInterval, boardR + boardLineWidth / 2.0f,  boardT + i * frameInterval, paint);
         }
 
+        // 枠内
         for (int i = 0; i < boardSize * boardSize; i++) {
             if (boardCpoy[i / boardSize][i % boardSize] >= 0 && boardCpoy[i / boardSize][i % boardSize] < 16) {
                 // line
