@@ -32,7 +32,7 @@ public class CanvasView extends View {
     }
 
     @Override
-    protected void  onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         // 描画処理をここに書く
         invalidate();
     }
