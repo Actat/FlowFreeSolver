@@ -23,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
     // int button_rect[] = new int[16];
     // Button button[] = new Button[SIZE * SIZE];
 
-    int board[][] = new int[SIZE][SIZE];
+    int board[][];
     int selectCount = 0;
 
     CanvasView cv;
+    int viewW = 0;
+    int viewH = 0;
 
     long startTime, finishTime;
 
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        cv = (CanvasView) findViewById(R.id.canvasview);
         // board_init();
         // Log.v("INIT", "board_init finished");
         // button_init();
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         final Runnable r = new Runnable() {
             @Override
             public void run() {
-                // reDraw();
+                reDraw();
                 handler.postDelayed(this, 50);
             }
         };
@@ -95,16 +98,14 @@ public class MainActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        cv = (CanvasView) findViewById(R.id.canvasview);
-        int h = cv.getHeight();
-        int w = cv.getWidth();
-        cv.drawBoard(SIZE, h, w);
-
+        viewH = cv.getHeight();
+        viewW = cv.getWidth();
     }
 
-    /*
+
     // init
     private void board_init() {
+        board = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 board[i][j] = -1;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
         selectCount = 0;
     }
+    /*
     private void button_init() {
         button_default = R.drawable.button_default;
 
@@ -348,20 +350,20 @@ public class MainActivity extends AppCompatActivity {
         board[row][col] = color + 100;
         button[num].setBackground(button_ring[color]);
     }
-    
+    */
     // draw
     private void reDraw() {
+        /*
         for (int i = 0; i < SIZE * SIZE; i++) {
             int tmp = board[i / SIZE][i % SIZE];
             if (tmp >= 0 && tmp < 16) button[i].setBackgroundResource(button_rect[tmp]);
             if (tmp >= 100 && tmp < 116) button[i].setBackground(button_ring[tmp % 100]);
             if (tmp == -1) button[i].setBackgroundResource(button_default);
             button[i].invalidate();
-        }
+        }*/
 
-        // Log.v("DRAW", "reDraw executed");
+        cv.drawBoard(SIZE, viewH, viewW);
     }
-    */
 
     // solve problems
     boolean solveProblem() {
