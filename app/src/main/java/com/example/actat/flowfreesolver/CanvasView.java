@@ -2,6 +2,7 @@ package com.example.actat.flowfreesolver;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -32,11 +33,17 @@ public class CanvasView extends View {
 
     private void init_CanvasView() {
         paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.rgb(255, 0, 0));
+        paint.setStrokeWidth(10);
+        paint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // 描画処理をここに書く
+        canvas.drawRect(0, 0, viewW, viewH, paint);
+
         invalidate();
     }
 
