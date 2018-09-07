@@ -115,25 +115,6 @@ public class MainActivity extends AppCompatActivity {
     }
     /*
     private void button_init() {
-        button_default = R.drawable.button_default;
-
-        button_ring[0] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_red, null);
-        button_ring[1] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_green, null);
-        button_ring[2] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_blue, null);
-        button_ring[3] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_yellow, null);
-        button_ring[4] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_orange, null);
-        button_ring[5] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_cyan, null);
-        button_ring[6] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_magenta, null);
-        button_ring[7] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_maroon, null);
-        button_ring[8] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_purple, null);
-        button_ring[9] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_white, null);
-        button_ring[10] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_tan, null);
-        button_ring[11] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_brightgreen, null);
-        button_ring[12] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_darkblue, null);
-        button_ring[13] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_pink, null);
-        button_ring[14] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_darkcyan, null);
-        button_ring[15] = ResourcesCompat.getDrawable(getResources(), R.drawable.ring_gray, null);
-
         button_rect[0] =  R.drawable.rect_red;
         button_rect[1] =  R.drawable.rect_green;
         button_rect[2] =  R.drawable.rect_blue;
@@ -151,188 +132,10 @@ public class MainActivity extends AppCompatActivity {
         button_rect[14] = R.drawable.rect_darkcyan;
         button_rect[15] = R.drawable.rect_gray;
 
-        button[0] = (Button)findViewById(R.id.button1);
-        button[1] = (Button)findViewById(R.id.button2);
-        button[2] = (Button)findViewById(R.id.button3);
-        button[3] = (Button)findViewById(R.id.button4);
-        button[4] = (Button)findViewById(R.id.button5);
-        button[5] = (Button)findViewById(R.id.button6);
-        button[6] = (Button)findViewById(R.id.button7);
-        button[7] = (Button)findViewById(R.id.button8);
-        button[8] = (Button)findViewById(R.id.button9);
-        button[9] = (Button)findViewById(R.id.button10);
-        button[10] = (Button)findViewById(R.id.button11);
-        button[11] = (Button)findViewById(R.id.button12);
-        button[12] = (Button)findViewById(R.id.button13);
-        button[13] = (Button)findViewById(R.id.button14);
-        button[14] = (Button)findViewById(R.id.button15);
-        button[15] = (Button)findViewById(R.id.button16);
-        button[16] = (Button)findViewById(R.id.button17);
-        button[17] = (Button)findViewById(R.id.button18);
-        button[18] = (Button)findViewById(R.id.button19);
-        button[19] = (Button)findViewById(R.id.button20);
-        button[20] = (Button)findViewById(R.id.button21);
-        button[21] = (Button)findViewById(R.id.button22);
-        button[22] = (Button)findViewById(R.id.button23);
-        button[23] = (Button)findViewById(R.id.button24);
-        button[24] = (Button)findViewById(R.id.button25);
-
         for (int i = 0; i < SIZE * SIZE; i++) {
             button[i].setBackgroundResource(button_default);
         }
 
-        button[0].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(0);
-            }
-        });
-        button[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(1);
-            }
-        });
-        button[2].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(2);
-            }
-        });
-        button[3].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(3);
-            }
-        });
-        button[4].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(4);
-            }
-        });
-        button[5].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(5);
-            }
-        });
-        button[6].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(6);
-            }
-        });
-        button[7].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(7);
-            }
-        });
-        button[8].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(8);
-            }
-        });
-        button[9].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(9);
-            }
-        });
-        button[10].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(10);
-            }
-        });
-        button[11].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(11);
-            }
-        });
-        button[12].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(12);
-            }
-        });
-        button[13].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(13);
-            }
-        });
-        button[14].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(14);
-            }
-        });
-        button[15].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(15);
-            }
-        });
-        button[16].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(16);
-            }
-        });
-        button[17].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(17);
-            }
-        });
-        button[18].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(18);
-            }
-        });
-        button[19].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(19);
-            }
-        });
-        button[20].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(20);
-            }
-        });
-        button[21].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(21);
-            }
-        });
-        button[22].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(22);
-            }
-        });
-        button[23].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(23);
-            }
-        });
-        button[24].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_pushed(24);
-            }
-        });
-
-    }
     private void button_pushed(int num) {
         int row = num / SIZE;
         int col = num % SIZE;
@@ -353,15 +156,6 @@ public class MainActivity extends AppCompatActivity {
     */
     // draw
     private void reDraw() {
-        /*
-        for (int i = 0; i < SIZE * SIZE; i++) {
-            int tmp = board[i / SIZE][i % SIZE];
-            if (tmp >= 0 && tmp < 16) button[i].setBackgroundResource(button_rect[tmp]);
-            if (tmp >= 100 && tmp < 116) button[i].setBackground(button_ring[tmp % 100]);
-            if (tmp == -1) button[i].setBackgroundResource(button_default);
-            button[i].invalidate();
-        }*/
-
         int[][] copy = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
