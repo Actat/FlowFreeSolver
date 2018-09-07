@@ -59,9 +59,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // clickされた時の処理
                 // Log.v("RESET", "button_reset clicked");
-                // board_init();
-                // button_init();
-                // reDraw();
+                board_init();
+                reDraw();
             }
         });
 
