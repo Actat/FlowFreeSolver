@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
 
         cv = (CanvasView) findViewById(R.id.canvasview);
+        int h = cv.getHeight();
+        int w = cv.getWidth();
+        cv.drawBoard(SIZE, h, w);
 
     }
 
