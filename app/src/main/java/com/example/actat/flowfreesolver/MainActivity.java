@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     int board[][] = new int[SIZE][SIZE];
     int selectCount = 0;
 
+    CanvasView cv;
+
     long startTime, finishTime;
 
     @Override
@@ -87,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        cv = (CanvasView) findViewById(R.id.canvasview);
+
     }
 
     /*
