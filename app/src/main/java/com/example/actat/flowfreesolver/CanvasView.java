@@ -13,7 +13,9 @@ public class CanvasView extends View {
 
     private Paint paint;
     private int boardSize = 5;
-    private int boardL, boardR, boardT, boardB;
+    private float boardL, boardR, boardT, boardB;
+    private int boardLineWidth = 3;
+    private float frameInterval = 0;
 
     public CanvasView(Context context) {
         super(context);
@@ -33,15 +35,21 @@ public class CanvasView extends View {
     private void init_CanvasView() {
         paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(Color.rgb(255, 0, 0));
-        paint.setStrokeWidth(10);
+        paint.setColor(Color.rgb(255, 255, 255));
+        paint.setStrokeWidth(boardLineWidth);
         paint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // 描画処理をここに書く
-        canvas.drawRect(boardL, boardT, boardR, boardB, paint);
+        // 枠線
+        paint.setStrokeWidth(boardLineWidth);
+        paint.setColor(getResources().getColor(R.color.frame));
+        for (int i = 0; i < boardSize + 1; i++) {
+            canvas.drawLine(boardL + i * frameInterval, boardT - boardLineWidth / 2.0f, boardL + i * frameInterval, boardB + boardLineWidth / 2.0f, paint);
+            canvas.drawLine(boardL - boardLineWidth / 2.0f, boardT + i * frameInterval, boardR + boardLineWidth / 2.0f,  boardT + i * frameInterval, paint);
+        }
 
         invalidate();
     }
@@ -55,15 +63,16 @@ public class CanvasView extends View {
         boardSize = s;
 
         if (h > w) {
-            boardL = 0;
-            boardR = w;
-            boardT = (h - w) / 2;
-            boardB = (h + w) / 2;
+            boardL = 0 + boardLineWidth / 2.0f;
+            boardR = w - boardLineWidth / 2.0f;
+            boardT = (h - w + boardLineWidth) / 2.0f;
+            boardB = (h + w - boardLineWidth) / 2.0f;
         } else {
-            boardT = 0;
-            boardB = h;
-            boardL = (w - h) / 2;
-            boardR = (w + h) / 2;
+            boardT = 0 + boardLineWidth / 2.0f;
+            boardB = h - boardLineWidth / 2.0f;
+            boardL = (w - h + boardLineWidth) / 2.0f;
+            boardR = (w + h - boardLineWidth) / 2.0f;
         }
+        frameInterval = (boardB - boardT) / boardSize;
     }
 }

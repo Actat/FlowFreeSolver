@@ -21,4 +21,5 @@
     <color name="colorDarkblue">#000080</color>
     <color name="colorDarkcyan">#008b8b</color>
     <color name="colorPink">#FF4081</color>
+    <color name="frame">#707070</color>
 </resources>
