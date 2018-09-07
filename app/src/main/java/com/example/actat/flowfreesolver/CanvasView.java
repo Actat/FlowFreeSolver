@@ -17,6 +17,7 @@ public class CanvasView extends View {
     private int boardLineWidth = 3;
     private float frameInterval = 0;
     private int[][] boardCpoy = new int[1][1];
+    private int[] color;
 
     public CanvasView(Context context) {
         super(context);
@@ -39,6 +40,24 @@ public class CanvasView extends View {
         paint.setColor(Color.rgb(255, 255, 255));
         paint.setStrokeWidth(boardLineWidth);
         paint.setStyle(Paint.Style.STROKE);
+
+        color = new int[16];
+        color[0] =  getResources().getColor(R.color.colorRed);
+        color[1] =  getResources().getColor(R.color.colorGreen);
+        color[2] =  getResources().getColor(R.color.colorBlue);
+        color[3] =  getResources().getColor(R.color.colorYellow);
+        color[4] =  getResources().getColor(R.color.colorOrange);
+        color[5] =  getResources().getColor(R.color.colorCyan);
+        color[6] =  getResources().getColor(R.color.colorMagenta);
+        color[7] =  getResources().getColor(R.color.colorMaroon);
+        color[8] =  getResources().getColor(R.color.colorPurple);
+        color[9] =  getResources().getColor(R.color.colorWhite);
+        color[10] = getResources().getColor(R.color.colorTan);
+        color[11] = getResources().getColor(R.color.colorBrightgreen);
+        color[12] = getResources().getColor(R.color.colorDarkblue);
+        color[13] = getResources().getColor(R.color.colorPink);
+        color[14] = getResources().getColor(R.color.colorDarkcyan);
+        color[15] = getResources().getColor(R.color.colorGray);
     }
 
     @Override
@@ -55,10 +74,12 @@ public class CanvasView extends View {
         for (int i = 0; i < boardSize * boardSize; i++) {
             if (boardCpoy[i / boardSize][i % boardSize] >= 0 && boardCpoy[i / boardSize][i % boardSize] < 16) {
                 // line
+                paint.setColor(color[boardCpoy[i / boardSize][i % boardSize]]);
                 canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f),boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
             }
             if (boardCpoy[i / boardSize][i % boardSize] >= 100 && boardCpoy[i / boardSize][i % boardSize] < 116) {
                 // circle
+                paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
                 paint.setStyle(Paint.Style.FILL_AND_STROKE);
                 canvas.drawCircle( boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.35f, paint);
             }
