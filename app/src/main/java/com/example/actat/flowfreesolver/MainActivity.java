@@ -114,28 +114,6 @@ public class MainActivity extends AppCompatActivity {
         selectCount = 0;
     }
     /*
-    private void button_init() {
-        button_rect[0] =  R.drawable.rect_red;
-        button_rect[1] =  R.drawable.rect_green;
-        button_rect[2] =  R.drawable.rect_blue;
-        button_rect[3] =  R.drawable.rect_yellow;
-        button_rect[4] =  R.drawable.rect_orange;
-        button_rect[5] =  R.drawable.rect_cyan;
-        button_rect[6] =  R.drawable.rect_magenta;
-        button_rect[7] =  R.drawable.rect_maroon;
-        button_rect[8] =  R.drawable.rect_purple;
-        button_rect[9] =  R.drawable.rect_white;
-        button_rect[10] = R.drawable.rect_tan;
-        button_rect[11] = R.drawable.rect_brightgreen;
-        button_rect[12] = R.drawable.rect_darkblue;
-        button_rect[13] = R.drawable.rect_pink;
-        button_rect[14] = R.drawable.rect_darkcyan;
-        button_rect[15] = R.drawable.rect_gray;
-
-        for (int i = 0; i < SIZE * SIZE; i++) {
-            button[i].setBackgroundResource(button_default);
-        }
-
     private void button_pushed(int num) {
         int row = num / SIZE;
         int col = num % SIZE;
