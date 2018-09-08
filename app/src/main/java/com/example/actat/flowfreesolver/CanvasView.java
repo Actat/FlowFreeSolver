@@ -86,7 +86,6 @@ public class CanvasView extends View {
                     // line
                     paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
                     canvas.drawCircle(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.15f, paint);
-                    // canvas.drawRoundRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), frameInterval / 6.0f, frameInterval / 6.0f, paint);
                 }
                 if (boardCpoy[i / boardSize][i % boardSize] >= 100 && boardCpoy[i / boardSize][i % boardSize] < 116) {
                     // circle
