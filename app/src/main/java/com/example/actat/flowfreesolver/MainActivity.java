@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // clickされた時の処理
+                handler.removeCallbacks(r);
                 board_init();
                 reDraw();
             }
