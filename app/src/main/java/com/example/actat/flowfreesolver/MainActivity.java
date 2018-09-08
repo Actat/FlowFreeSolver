@@ -20,6 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
     long startTime, finishTime;
 
+    private final Handler handler = new Handler();
+    private final Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            reDraw();
+            handler.postDelayed(this, 50);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,16 +37,7 @@ public class MainActivity extends AppCompatActivity {
         cv = (CanvasView) findViewById(R.id.canvasview);
         cv.setMainActivity(this);
         board_init();
-
-        final Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                reDraw();
-                handler.postDelayed(this, 50);
-            }
-        };
-        handler.post(r);
+        reDraw();
 
         ((Button)findViewById(R.id.button_reset)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // clickされた時の処理
                 // Log.v("SOLVE", "button_solve clicked");
+                handler.post(r);
                 startTime = System.currentTimeMillis();
                 AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
                     @Override
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     protected void onPostExecute(Boolean result) {
                         // Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
                         finishTime = System.currentTimeMillis();
+                        handler.removeCallbacks(r);
                         if (result) {
                             Toast.makeText(getApplicationContext(), "solved in " + String.valueOf(finishTime - startTime) + " ms", Toast.LENGTH_LONG).show();
                         } else {
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         viewH = cv.getHeight();
         viewW = cv.getWidth();
+
+        reDraw();
     }
 
 
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
         selectCount++;
 
         board[row][col] = color + 100;
+
+        reDraw();
     }
 
     // draw
