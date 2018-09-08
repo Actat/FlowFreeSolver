@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int MAX_SIZE = 10;
+    private static final int MIN_SIZE = 5;
     int SIZE = 5;
 
     int board[][];
@@ -38,6 +41,30 @@ public class MainActivity extends AppCompatActivity {
         cv.setMainActivity(this);
         board_init();
         reDraw();
+
+        ((Button)findViewById(R.id.button_minus)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View w) {
+                handler.removeCallbacks(r);
+                if (SIZE > MIN_SIZE) {
+                    SIZE--;
+                }
+                board_init();
+                reDraw();
+            }
+        });
+
+        ((Button)findViewById(R.id.button_plus)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handler.removeCallbacks(r);
+                if (SIZE < MAX_SIZE) {
+                    SIZE++;
+                }
+                board_init();
+                reDraw();
+            }
+        });
 
         ((Button)findViewById(R.id.button_reset)).setOnClickListener(new View.OnClickListener() {
             @Override
