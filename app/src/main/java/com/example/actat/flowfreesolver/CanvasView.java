@@ -12,6 +12,9 @@ import android.view.View;
 
 public class CanvasView extends View {
 
+    private static final int MAX_CLIC_DURATION = 200;
+    private long startClickTime;
+
     private MainActivity mainActivity;
     private Paint paint;
     private int boardSize = 5;
@@ -101,19 +104,30 @@ public class CanvasView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startClickTime = System.currentTimeMillis();
+                break;
 
-        for (int i = 0; i < boardSize; i++) {
-            if (x > boardL + frameInterval * i && x < boardL + frameInterval * (i + 1)) {
-                for (int j = 0; j < boardSize; j++) {
-                    if (y > boardT + frameInterval * j && y < boardT + frameInterval * (j + 1)) {
-                        // j行i列が押された
-                        mainActivity.button_pushed(j, i);
-                        // Log.v("tag", "x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " j: " + String.valueOf(j) + " i: " + String.valueOf(i));
+            case MotionEvent.ACTION_UP:
+                long clickDuration = System.currentTimeMillis() - startClickTime;
+                if (clickDuration < MAX_CLIC_DURATION) {
+                    // clicked
+                    float x = event.getX();
+                    float y = event.getY();
+
+                    for (int i = 0; i < boardSize; i++) {
+                        if (x > boardL + frameInterval * i && x < boardL + frameInterval * (i + 1)) {
+                            for (int j = 0; j < boardSize; j++) {
+                                if (y > boardT + frameInterval * j && y < boardT + frameInterval * (j + 1)) {
+                                    // j行i列が押された
+                                    mainActivity.button_pushed(j, i);
+                                    // Log.v("tag", "x: " + String.valueOf(x) + " y: " + String.valueOf(y) + " j: " + String.valueOf(j) + " i: " + String.valueOf(i));
+                                }
+                            }
+                        }
                     }
                 }
-            }
         }
         return true;
     }
