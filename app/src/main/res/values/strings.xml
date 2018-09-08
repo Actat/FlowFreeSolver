@@ -3,4 +3,6 @@
     <string name="button_reset">RESET</string>
     <string name="button_solve">SOLVE</string>
     <string name="empty"></string>
+    <string name="button_minus">MINUS</string>
+    <string name="button_plus">PLUS</string>
 </resources>

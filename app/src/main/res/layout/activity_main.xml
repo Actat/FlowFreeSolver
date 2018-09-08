@@ -39,6 +39,39 @@
             android:textColor="#ffffff"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="#101010"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button_minus"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_minus"
+            android:textColor="#ffffff"
+            tools:layout_editor_absoluteX="43dp"
+            tools:layout_editor_absoluteY="487dp" />
+
+        <Button
+            android:id="@+id/button_plus"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_plus"
+            android:textColor="#ffffff"
+            tools:layout_editor_absoluteX="260dp"
+            tools:layout_editor_absoluteY="487dp" />
+    </LinearLayout>
+
     <com.example.actat.flowfreesolver.CanvasView
         android:id="@+id/canvasview"
         android:layout_width="0dp"
@@ -49,7 +82,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
