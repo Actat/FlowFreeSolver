@@ -81,21 +81,46 @@ public class CanvasView extends View {
 
         // 枠内
         for (int i = 0; i < boardSize * boardSize; i++) {
-            if (boardCpoy[i / boardSize][i % boardSize] >= 0 && boardCpoy[i / boardSize][i % boardSize] < 16) {
-                // line
-                paint.setColor(color[boardCpoy[i / boardSize][i % boardSize]]);
-                canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f),boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
-            }
-            if (boardCpoy[i / boardSize][i % boardSize] >= 100 && boardCpoy[i / boardSize][i % boardSize] < 116) {
-                // circle
-                paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
-                paint.setStyle(Paint.Style.FILL_AND_STROKE);
-                canvas.drawCircle( boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.35f, paint);
+            if (boardCpoy[i / boardSize][i % boardSize] % 100 >= 0 && boardCpoy[i / boardSize][i % boardSize] % 100 < 16) {
+                if (boardCpoy[i / boardSize][i % boardSize] >= 0 && boardCpoy[i / boardSize][i % boardSize] < 16) {
+                    // line
+                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    canvas.drawCircle(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.15f, paint);
+                    // canvas.drawRoundRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), frameInterval / 6.0f, frameInterval / 6.0f, paint);
+                }
+                if (boardCpoy[i / boardSize][i % boardSize] >= 100 && boardCpoy[i / boardSize][i % boardSize] < 116) {
+                    // circle
+                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                    canvas.drawCircle(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.35f, paint);
+                }
+                // 接続
+                if (i / boardSize > 0 && boardCpoy[i / boardSize - 1][i % boardSize] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                    // up
+                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * (i / boardSize), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f), paint);
+                }
+                if (i % boardSize > 0 && boardCpoy[i / boardSize][i % boardSize - 1] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                    // left
+                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    canvas.drawRect(boardL + frameInterval * (i % boardSize), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f), boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
+                }
+                if (i / boardSize < boardSize - 1 && boardCpoy[i / boardSize + 1][i % boardSize] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                    // down
+                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 1), paint);
+                }
+                if (i % boardSize < boardSize - 1 && boardCpoy[i / boardSize][i % boardSize + 1] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                    // right
+                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f), boardL + frameInterval * ((i % boardSize) + 1), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
+                }
             }
             /*
             if (boardCpoy[i / boardSize][i % boardSize] == -1) {
                 // blank
             } */
+
         }
 
         invalidate();
