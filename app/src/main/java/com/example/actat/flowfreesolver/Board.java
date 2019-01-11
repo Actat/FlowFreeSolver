@@ -129,6 +129,8 @@ public class Board {
         return true;
     }
     private boolean isBoardQualified () {
+        // 明らかにダメだった時にfalseを返す関数
+        // バックトラッキングなアルゴリズムを使う用
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 // 始点終点の場合
@@ -226,6 +228,7 @@ public class Board {
         return true;
     }
 
+    // main activityから呼ばれる処理いろいろ
     public void board_init() {
         board = new int[getSize()][getSize()];
         for (int i = 0; i < getSize(); i++) {
@@ -249,7 +252,6 @@ public class Board {
 
         board[row][col] = color + 100;
     }
-
     public int getSize() {
         return SIZE;
     }
@@ -262,7 +264,6 @@ public class Board {
     public int getBoard(int col, int raw) {
         return board[col][raw];
     }
-
     public void incrementSize() {
         if (SIZE < getMaxSize()) {
             SIZE++;
@@ -274,53 +275,4 @@ public class Board {
         }
     }
 
-
-
-/*
-    public Board(int s) {
-        if (s < MIN_SIZE) {
-            s = MIN_SIZE;
-        }
-        if (s > MAX_SIZE) {
-            s = MAX_SIZE;
-        }
-        size = s;
-        board = new Cell[size][size];
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public boolean isInRange(int raw, int col) {
-        return  raw >= 0 && raw < size && col >= 0 && col < size;
-    }
-
-    public int getColor(int raw, int col) {
-        if (isInRange(raw, col)) {
-            return board[raw][col].getColor();
-        }
-        return -100;
-    }
-
-    public void setColor(int raw, int col, int color) {
-        if (isInRange(raw, col)) {
-            board[raw][col].setColor(color);
-        }
-    }
-
-    public int getMaxJoint(int raw, int col, int joint) {
-        if (isInRange(raw, col)) {
-            return board[raw][col].getMaxJoint();
-        }
-        return -100;
-    }
-
-    public void setEndPoint(int raw, int col, int color) {
-        if (isInRange(raw, col)) {
-            board[raw][col].setColor(color);
-            board[raw][col].setMaxJoint(1);
-        }
-    }
-*/
 }

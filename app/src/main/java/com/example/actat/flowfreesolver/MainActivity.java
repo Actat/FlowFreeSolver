@@ -9,16 +9,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-//    int board[][];
 
     CanvasView cv;
     int viewW = 0;
     int viewH = 0;
 
-    Board brd;
+    Board board;
 
     long startTime, finishTime;
 
+    // 一定時間ごとに画面を更新する
     private final Handler handler = new Handler();
     private final Runnable r = new Runnable() {
         @Override
@@ -35,15 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
         cv = (CanvasView) findViewById(R.id.canvasview);
         cv.setMainActivity(this);
-        brd.board_init();
+        board = new Board();
+        board.board_init();
         reDraw();
 
         ((Button)findViewById(R.id.button_minus)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
                 handler.removeCallbacks(r);
-                brd.decrementSizse();
-                brd.board_init();
+                board.decrementSizse();
+                board.board_init();
                 reDraw();
             }
         });
@@ -52,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handler.removeCallbacks(r);
-                brd.incrementSize();
-                brd.board_init();
+                board.incrementSize();
+                board.board_init();
                 reDraw();
             }
         });
@@ -61,9 +62,8 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button_reset)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // clickされた時の処理
                 handler.removeCallbacks(r);
-                brd.board_init();
+                board.board_init();
                 reDraw();
             }
         });
@@ -71,14 +71,15 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button_solve)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // clickされた時の処理
                 // Log.v("SOLVE", "button_solve clicked");
-                handler.post(r);
+                handler.post(r); // 画面更新開始
                 startTime = System.currentTimeMillis();
+
+                // バックグラウンドで処理
                 AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Object... objects) {
-                        return brd.solveProblem();
+                        return board.solveProblem();
                     }
 
                     @Override
@@ -110,23 +111,20 @@ public class MainActivity extends AppCompatActivity {
         reDraw();
     }
 
-
-
-
     public void button_pushed(int row, int col) {
-       brd.putDot(row, col);
+        board.putDot(row, col);
         reDraw();
     }
 
     // draw
     private void reDraw() {
-        int[][] copy = new int[brd.getSize()][brd.getSize()];
-        for (int i = 0; i < brd.getSize(); i++) {
-            for (int j = 0; j < brd.getSize(); j++) {
-                copy[i][j] = brd.getBoard(i, j);
+        int[][] copy = new int[board.getSize()][board.getSize()];
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
+                copy[i][j] = board.getBoard(i, j);
             }
         }
-        cv.drawBoard(brd.getSize(), viewH, viewW, copy);
+        cv.drawBoard(board.getSize(), viewH, viewW, copy);
     }
 
 }
