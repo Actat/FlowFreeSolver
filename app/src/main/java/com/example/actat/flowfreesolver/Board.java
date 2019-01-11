@@ -10,6 +10,10 @@ public class Board {
 
     // solve problem
     public boolean solveProblem() {
+        // 解けたらtrue 解けなかったらfalseを返す関数
+        return solveProblemBacktracking();
+    }
+    public boolean solveProblemBacktracking() {
         // 解決していたらtrueを返す
         if (isBoardSolved()) {
             // Log.v("LOGIC", "Board is Solved. return true");
