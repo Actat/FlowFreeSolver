@@ -6,7 +6,7 @@ public class Board {
     private int MIN_SIZE = 5;
     private int MAX_SIZE = 12;
     private int numDot = 0;
-    int board[][];
+    private int board[][];
 
     // solve problem
     public boolean solveProblem() {
