@@ -232,6 +232,33 @@ public class Board {
         return true;
     }
 
+    private boolean solveProblem2() {
+        if (isBoardSolved()) {
+            return true;
+        }
+
+        while (/* 可能な接続の数 < 必要な接続の数 のマスが存在しない && 可能な接続の数 == 必要な接続の数 を満たすマスが存在する */) {
+            // 可能な接続の数 == 必要な接続の数 のマスについて接続を設定する
+        }
+
+        if (/* 可能な接続の数 < 必要な接続の数 のマスがある */) {
+            return false;
+        }
+
+        while (/* 可能な接続の数 > 必要な接続 のマスが存在する */) {
+            // 可能な接続の数 > 必要な接続の数 のマスを一つ選ぶ
+            // 選んだマスから一つ接続を仮置きする場所を決める
+            // 接続を仮置きする
+            if (solveProblem2()) {
+                return true;
+            } else {
+                // 仮置きした接続を消す
+            }
+        }
+
+        return false;
+    }
+
     // main activityから呼ばれる処理いろいろ
     public void board_init() {
         board = new int[getSize()][getSize()];
