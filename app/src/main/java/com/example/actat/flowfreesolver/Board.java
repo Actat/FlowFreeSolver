@@ -232,27 +232,51 @@ public class Board {
         return true;
     }
 
-    private boolean solveProblem2() {
+    private boolean solveProblem2(int boardWorkspace[][]) {
         if (isBoardSolved()) {
             return true;
         }
 
-        while (/* 可能な接続の数 < 必要な接続の数 のマスが存在しない && 可能な接続の数 == 必要な接続の数 を満たすマスが存在する */) {
-            // 可能な接続の数 == 必要な接続の数 のマスについて接続を設定する
+        // 接続が確定する限り接続を作り続ける
+        boolean newConnectionFlag = true;
+        while (newConnectionFlag) {
+            newConnectionFlag = false;
+            for (int row = 0; row < SIZE; row++) {
+                for (int col = 0; col < SIZE; col++) {
+                    if (numPossibleNewConnection(row, col, boardWorkspace) < numNeededNewConnection(row, col, boardWorkspace)) {
+                        // 矛盾が発生した場合はfalseを返しておしまい
+                        return false;
+                    } else if (numPossibleNewConnection(row, col, boardWorkspace) == numNeededNewConnection(row, col, boardWorkspace)) {
+                        createAllPossibleConnection(row, col, boardWorkspace);
+                        newConnectionFlag = true;
+                    }
+                }
+            }
         }
 
-        if (/* 可能な接続の数 < 必要な接続の数 のマスがある */) {
-            return false;
-        }
-
-        while (/* 可能な接続の数 > 必要な接続 のマスが存在する */) {
-            // 可能な接続の数 > 必要な接続の数 のマスを一つ選ぶ
-            // 選んだマスから一つ接続を仮置きする場所を決める
-            // 接続を仮置きする
-            if (solveProblem2()) {
-                return true;
-            } else {
-                // 仮置きした接続を消す
+        // 可能な接続の数 > 必要な接続 のところに接続を仮置きして探索を進める
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (numPossibleNewConnection(row, col, boardWorkspace) > numNeededNewConnection(row, col, boardWorkspace)) {
+                    // 子供に渡すboardをつくる
+                    int boardChild[][] = new int[SIZE][SIZE];
+                    for (int i = 0; i < SIZE; i++) {
+                        for (int j = 0; j < SIZE; j++) {
+                            boardChild[i][j] = boardWorkspace[i][j];
+                        }
+                    }
+                    // 接続を仮置きする
+                    putConnectionTemporary(row, col, boardChild);
+                    // 子供に渡す
+                    if (solveProblem2(boardChild)) {
+                        for (int i = 0; i < SIZE; i++) {
+                            for (int j = 0; j < SIZE; j++) {
+                                boardWorkspace[i][j] = boardChild[i][j];
+                            }
+                        }
+                        return true;
+                    }
+                }
             }
         }
 
