@@ -82,6 +82,27 @@ public class Board {
 
         return false;
     }
+    private int numPossibleNewConnection(int row, int col) {
+        int num = 0;
+        for (int direction = 0; direction < 4; direction++) {
+            if (board[row][col].getConnection(direction) == 0) {
+                num++;
+            }
+        }
+        return num;
+    }
+    private int numNeededNewConnection(int row, int col) {
+        int num = 2;
+        if (board[row][col].getColor() >= 100 && board[row][col].getColor() <= 115){
+            num = 1;
+        }
+        for (int direction = 0; direction < 4; direction++) {
+            if (board[row][col].getConnection(direction) == 1) {
+                num--;
+            }
+        }
+        return num;
+    }
 
     public void board_init() {
         board = new Cell[getSize()][getSize()];
