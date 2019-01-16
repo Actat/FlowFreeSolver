@@ -161,5 +161,32 @@ public class Board {
             SIZE--;
         }
     }
+    private void setSIZE(int s) {
+        if (s >= MIN_SIZE && s <= MAX_SIZE) {
+            SIZE = s;
+        }
+    }
+    public void copyFrom(Board from) {
+        setSIZE(from.getSize());
+        setNumDot(from.getNumDot());
+        board_init();
+        for (int row = 0; row < getSize(); row++) {
+            for (int col = 0; col < getSize(); col++) {
+                board[row][col].setColor(from.getBoard(row, col));
+                for (int direction = 0; direction < 4; direction++) {
+                    board[row][col].setConnection(direction, from.getConnection(row, col, direction));
+                }
+            }
+        }
+    }
+    public int getConnection(int row, int col, int direction) {
+        return board[row][col].getConnection(direction);
+    }
+    public void setNumDot(int n) {
+        numDot = n;
+    }
+    public int getNumDot() {
+        return numDot;
+    }
 
 }
