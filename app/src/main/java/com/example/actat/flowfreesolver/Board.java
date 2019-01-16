@@ -111,6 +111,18 @@ public class Board {
                 board[i][j].setColor(-1);
             }
         }
+        for (int i = 0; i < getSize(); i++) {
+            board[0][i].setConnection(0, -1);
+        }
+        for (int i = 0; i < getSize(); i++) {
+            board[i][SIZE - 1].setConnection(1, -1);
+        }
+        for (int i = 0; i < getSize(); i++) {
+            board[SIZE - 1][i].setConnection(2, -1);
+        }
+        for (int i = 0; i < getSize(); i++) {
+            board[i][0].setConnection(3, -1);
+        }
         numDot = 0;
     }
     public void putDot(int row, int col) {
