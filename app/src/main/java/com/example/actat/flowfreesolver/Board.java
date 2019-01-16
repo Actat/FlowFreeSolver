@@ -26,13 +26,13 @@ public class Board {
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
                     int count = 0;
-                    if (i - 1 >= 0 && board[i - 1][j] % 100 == board[i][j] % 100) count++;
-                    if (j - 1 >= 0 && board[i][j - 1] % 100 == board[i][j] % 100) count++;
-                    if (i + 1 < SIZE && board[i + 1][j] % 100 == board[i][j] % 100) count++;
-                    if (j + 1 < SIZE && board[i][j + 1] % 100 == board[i][j] % 100) count++;
+                    if (i - 1 >= 0 && board[i - 1][j].getColor() % 100 == board[i][j].getColor() % 100) count++;
+                    if (j - 1 >= 0 && board[i][j - 1].getColor() % 100 == board[i][j].getColor() % 100) count++;
+                    if (i + 1 < SIZE && board[i + 1][j].getColor() % 100 == board[i][j].getColor() % 100) count++;
+                    if (j + 1 < SIZE && board[i][j + 1].getColor() % 100 == board[i][j].getColor() % 100) count++;
 
-                    if (board[i][j] >= 100 && count != 1) return false;
-                    if (board[i][j] < 100 && count != 2) return false;
+                    if (board[i][j].getColor() >= 100 && count != 1) return false;
+                    if (board[i][j].getColor() < 100 && count != 2) return false;
                 }
             }
         }
@@ -51,11 +51,11 @@ public class Board {
             newConnectionFlag = false;
             for (int row = 0; row < SIZE; row++) {
                 for (int col = 0; col < SIZE; col++) {
-                    if (numPossibleNewConnection(row, col, boardWorkspace) < numNeededNewConnection(row, col, boardWorkspace)) {
+                    if (numPossibleNewConnection(row, col) < numNeededNewConnection(row, col)) {
                         // 矛盾が発生した場合はfalseを返しておしまい
                         return false;
-                    } else if (numPossibleNewConnection(row, col, boardWorkspace) == numNeededNewConnection(row, col, boardWorkspace)) {
-                        createAllPossibleConnection(row, col, boardWorkspace);
+                    } else if (numPossibleNewConnection(row, col) == numNeededNewConnection(row, col)) {
+                        createAllPossibleConnection(row, col);
                         newConnectionFlag = true;
                     }
                 }
@@ -65,23 +65,15 @@ public class Board {
         // 可能な接続の数 > 必要な接続 のところに接続を仮置きして探索を進める
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
-                if (numPossibleNewConnection(row, col, boardWorkspace) > numNeededNewConnection(row, col, boardWorkspace)) {
+                if (numPossibleNewConnection(row, col) > numNeededNewConnection(row, col)) {
                     // 子供に渡すboardをつくる
-                    int boardChild[][] = new int[SIZE][SIZE];
-                    for (int i = 0; i < SIZE; i++) {
-                        for (int j = 0; j < SIZE; j++) {
-                            boardChild[i][j] = boardWorkspace[i][j];
-                        }
-                    }
+                    Board boardChild = new Board();
+                    boardChild.copyFrom(this);
                     // 接続を仮置きする
-                    putConnectionTemporary(row, col, boardChild);
+                    boardChild.putConnectionTemporary(row, col);
                     // 子供に渡す
-                    if (solveProblem2(boardChild)) {
-                        for (int i = 0; i < SIZE; i++) {
-                            for (int j = 0; j < SIZE; j++) {
-                                boardWorkspace[i][j] = boardChild[i][j];
-                            }
-                        }
+                    if (boardChild.solveProblem()) {
+                        copyFrom(boardChild);
                         return true;
                     }
                 }
@@ -91,12 +83,11 @@ public class Board {
         return false;
     }
 
-    // main activityから呼ばれる処理いろいろ
     public void board_init() {
-        board = new int[getSize()][getSize()];
+        board = new Cell[getSize()][getSize()];
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
-                board[i][j] = -1;
+                board[i][j].setColor(-1);
             }
         }
         numDot = 0;
@@ -104,7 +95,7 @@ public class Board {
     public void putDot(int row, int col) {
         int color = 0;
 
-        if (board[row][col] != -1) return;
+        if (board[row][col].getColor() != -1) return;
 
         if (numDot % 2 == 0) {
             color = numDot / 2;
@@ -113,7 +104,7 @@ public class Board {
         }
         numDot++;
 
-        board[row][col] = color + 100;
+        board[row][col].setColor(color + 100);
     }
     public int getSize() {
         return SIZE;
@@ -125,7 +116,7 @@ public class Board {
         return MAX_SIZE;
     }
     public int getBoard(int col, int raw) {
-        return board[col][raw];
+        return board[col][raw].getColor();
     }
     public void incrementSize() {
         if (SIZE < getMaxSize()) {
