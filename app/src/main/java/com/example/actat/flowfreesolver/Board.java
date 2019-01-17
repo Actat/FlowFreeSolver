@@ -51,10 +51,10 @@ public class Board {
             newConnectionFlag = false;
             for (int row = 0; row < SIZE; row++) {
                 for (int col = 0; col < SIZE; col++) {
-                    if (numPossibleNewConnection(row, col) < numNeededNewConnection(row, col)) {
+                    if (numPossibleNewConnection(board[row][col]) < numNeededNewConnection(board[row][col])) {
                         // 矛盾が発生した場合はfalseを返しておしまい
                         return false;
-                    } else if (numPossibleNewConnection(row, col) == numNeededNewConnection(row, col)) {
+                    } else if (numPossibleNewConnection(board[row][col]) == numNeededNewConnection(board[row][col])) {
                         createAllPossibleConnection(row, col);
                         newConnectionFlag = true;
                     }
@@ -65,7 +65,7 @@ public class Board {
         // 可能な接続の数 > 必要な接続 のところに接続を仮置きして探索を進める
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
-                if (numPossibleNewConnection(row, col) > numNeededNewConnection(row, col)) {
+                if (numPossibleNewConnection(board[row][col]) > numNeededNewConnection(board[row][col])) {
                     // 子供に渡すboardをつくる
                     Board boardChild = new Board();
                     boardChild.copyFrom(this);
@@ -82,26 +82,92 @@ public class Board {
 
         return false;
     }
-    private int numPossibleNewConnection(int row, int col) {
+    private int numPossibleNewConnection(Cell cell) {
         int num = 0;
         for (int direction = 0; direction < 4; direction++) {
-            if (board[row][col].getConnection(direction) == 0) {
+            if (cell.getConnection(direction) == 0) {
                 num++;
             }
         }
         return num;
     }
-    private int numNeededNewConnection(int row, int col) {
+    private int numNeededNewConnection(Cell cell) {
         int num = 2;
-        if (board[row][col].getColor() >= 100 && board[row][col].getColor() <= 115){
+        if (cell.getColor() >= 100 && cell.getColor() <= 115){
             num = 1;
         }
         for (int direction = 0; direction < 4; direction++) {
-            if (board[row][col].getConnection(direction) == 1) {
+            if (cell.getConnection(direction) == 1) {
                 num--;
             }
         }
         return num;
+    }
+    private void createAllPossibleConnection(int row, int col) {
+        for (int direction = 0; direction < 4; direction++) {
+            if (canConnect(row, col, direction)) {
+                connect(row, col, direction);
+            }
+        }
+    }
+    private void connect(int row, int col, int direction) {
+        if (canConnect(row, col, direction)) {
+            Cell neighbor = getNeighborCell(row, col, direction);
+            board[row][col].setConnection(direction, 1);
+            neighbor.setConnection(oppositeDirection(direction), 1);
+            if (board[row][col].getColor() == -1 && neighbor.getColor() != -1) {
+                board[row][col].setColor(neighbor.getColor() % 100);
+            }
+            if (board[row][col].getColor() != -1 && neighbor.getColor() == -1) {
+                neighbor.setColor(board[row][col].getColor() % 100);
+            }
+            processConnectionSaturation(board[row][col]);
+            processConnectionSaturation(neighbor);
+        }
+    }
+    private void processConnectionSaturation(Cell cell) {
+        int neededConnection = 2;
+        int existingConnection = 0;
+
+        if (cell.getColor() >= 100 && cell.getColor() <=115) {
+            neededConnection = 1;
+        }
+        for (int i = 0; i < 4; i++) {
+            if (cell.getConnection(i) == 1) {
+                existingConnection++;
+            }
+        }
+
+        if (existingConnection >= neededConnection) {
+            for(int i = 0; i < 4; i++) {
+                if (cell.getConnection(i) == 0) {
+                    cell.setConnection(i, -1);
+                }
+            }
+        }
+    }
+    private boolean canConnect (int row, int col, int direction) {
+        Cell neighbor = getNeighborCell(row, col, direction);
+        if (neighbor == null) {
+            return false;
+        }
+        return board[row][col].getConnection(direction) == 0 && neighbor.getConnection(oppositeDirection(direction)) == 0;
+    }
+    private int oppositeDirection (int direction) {
+        return (direction + 2) % 4;
+    }
+    private Cell getNeighborCell(int row, int col, int direction) {
+        if (direction == 0 && row > 0) {
+            return board[row - 1][col];
+        } else if (direction == 1 && col < SIZE - 1) {
+            return board[row][col + 1];
+        } else if (direction == 2 && row < SIZE - 1) {
+            return board[row + 1][col];
+        } else if (direction == 3 && col > 0) {
+            return board[row][col - 1];
+        } else {
+            return null;
+        }
     }
 
     public void board_init() {
