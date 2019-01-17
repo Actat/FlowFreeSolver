@@ -156,7 +156,7 @@ public class Board {
             SIZE++;
         }
     }
-    public void decrementSizse() {
+    public void decrementSize() {
         if (SIZE > getMinSize()) {
             SIZE--;
         }

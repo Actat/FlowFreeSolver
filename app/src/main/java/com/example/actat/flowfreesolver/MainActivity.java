@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View w) {
                 handler.removeCallbacks(r);
-                board.decrementSizse();
+                board.decrementSize();
                 board.board_init();
                 reDraw();
             }
