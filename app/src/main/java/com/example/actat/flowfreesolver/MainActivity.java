@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
                 task.execute(this);
-
             }
         });
     }

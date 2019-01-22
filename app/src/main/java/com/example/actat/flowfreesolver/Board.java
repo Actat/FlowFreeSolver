@@ -47,6 +47,7 @@ public class Board {
             return true;
         }
 
+        eraseImpossibleConnection();
         // 接続が確定する限り接続を作り続ける
         boolean newConnectionFlag = true;
         while (newConnectionFlag) {
@@ -123,6 +124,7 @@ public class Board {
             if (board[row][col].getColor() != -1 && neighbor.getColor() == -1) {
                 neighbor.setColor(board[row][col].getColor() % 100);
             }
+            eraseImpossibleConnection();
             processConnectionSaturation(board[row][col]);
             processConnectionSaturation(neighbor);
         }
@@ -169,6 +171,19 @@ public class Board {
             return board[row][col - 1];
         } else {
             return null;
+        }
+    }
+    private void eraseImpossibleConnection() {
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                for (int direction = 0; direction < 4; direction++) {
+                    Cell neighbor = getNeighborCell(row, col, direction);
+                    if (neighbor != null && neighbor.getColor() != -1 && board[row][col].getColor() != -1 && neighbor.getColor() % 100 != board[row][col].getColor() % 100) {
+                        board[row][col].setConnection(direction, -1);
+                        neighbor.setConnection(oppositeDirection(direction), -1);
+                    }
+                }
+            }
         }
     }
 
