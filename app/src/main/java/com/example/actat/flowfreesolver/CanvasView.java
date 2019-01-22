@@ -20,7 +20,7 @@ public class CanvasView extends View {
     private float boardL, boardR, boardT, boardB;
     private int boardLineWidth = 3;
     private float frameInterval = 0;
-    private int[][] boardCpoy = new int[1][1];
+    private Board boardCopy = new Board();
     private int[] color;
 
     public CanvasView(Context context) {
@@ -81,48 +81,62 @@ public class CanvasView extends View {
 
         // 枠内
         for (int i = 0; i < boardSize * boardSize; i++) {
-            if (boardCpoy[i / boardSize][i % boardSize] % 100 >= 0 && boardCpoy[i / boardSize][i % boardSize] % 100 < 16) {
-                if (boardCpoy[i / boardSize][i % boardSize] >= 0 && boardCpoy[i / boardSize][i % boardSize] < 16) {
+            if (boardCopy.getColor(i / boardSize,i % boardSize) % 100 >= 0 && boardCopy.getColor(i / boardSize,i % boardSize) % 100 < 16) {
+                if (boardCopy.getColor(i / boardSize,i % boardSize) >= 0 && boardCopy.getColor(i / boardSize,i % boardSize) < 16) {
                     // line
-                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     canvas.drawCircle(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.15f, paint);
                 }
-                if (boardCpoy[i / boardSize][i % boardSize] >= 100 && boardCpoy[i / boardSize][i % boardSize] < 116) {
+                if (boardCopy.getColor(i / boardSize,i % boardSize) >= 100 && boardCopy.getColor(i / boardSize,i % boardSize) < 116) {
                     // circle
-                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     paint.setStyle(Paint.Style.FILL_AND_STROKE);
                     canvas.drawCircle(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.35f, paint);
                 }
                 // 接続
-                if (i / boardSize > 0 && boardCpoy[i / boardSize - 1][i % boardSize] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                if (i / boardSize > 0 && boardCopy.getColor(i / boardSize- 1, i % boardSize % 100) == boardCopy.getColor(i / boardSize,i % boardSize) % 100) {
                     // up
-                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * (i / boardSize), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f), paint);
                 }
-                if (i % boardSize > 0 && boardCpoy[i / boardSize][i % boardSize - 1] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                if (i % boardSize > 0 && boardCopy.getColor(i / boardSize,i % boardSize - 1) % 100 == boardCopy.getColor(i / boardSize,i % boardSize) % 100) {
                     // left
-                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     canvas.drawRect(boardL + frameInterval * (i % boardSize), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f), boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
                 }
-                if (i / boardSize < boardSize - 1 && boardCpoy[i / boardSize + 1][i % boardSize] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                if (i / boardSize < boardSize - 1 && boardCopy.getColor(i / boardSize+ 1, i % boardSize) % 100 == boardCopy.getColor(i / boardSize,i % boardSize) % 100) {
                     // down
-                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 1), paint);
                 }
-                if (i % boardSize < boardSize - 1 && boardCpoy[i / boardSize][i % boardSize + 1] % 100 == boardCpoy[i / boardSize][i % boardSize] % 100) {
+                if (i % boardSize < boardSize - 1 && boardCopy.getColor(i / boardSize,i % boardSize + 1) % 100 == boardCopy.getColor(i / boardSize,i % boardSize) % 100) {
                     // right
-                    paint.setColor(color[boardCpoy[i / boardSize][i % boardSize] % 100]);
+                    paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f - 0.15f), boardL + frameInterval * ((i % boardSize) + 1), boardT + frameInterval * ((i / boardSize) + 0.5f + 0.15f), paint);
                 }
             }
-            /*
-            if (boardCpoy[i / boardSize][i % boardSize] == -1) {
-                // blank
-            } */
-
+            // connection
+            paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 0)));
+            canvas.drawLine(boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), paint);
+            paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 1)));
+            canvas.drawLine(boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), paint);
+            paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 2)));
+            canvas.drawLine(boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), paint);
+            paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 3)));
+            canvas.drawLine(boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), paint);
         }
 
         invalidate();
+    }
+
+    private int getColorOfConnection(int connection) {
+        if (connection == 0) {
+            return getResources().getColor(R.color.connectionUnsettled);
+        } else if (connection == 1) {
+            return getResources().getColor(R.color.connectionExist);
+        } else {
+            return getResources().getColor(R.color.connectionImpossible);
+        }
     }
 
     @Override
@@ -155,9 +169,9 @@ public class CanvasView extends View {
         return true;
     }
 
-    public void drawBoard(int s, int h, int w, int[][] copy) {
+    public void drawBoard(int s, int h, int w, Board copy) {
         boardSize = s;
-        boardCpoy = copy;
+        boardCopy = copy;
 
         if (h > w) {
             boardL = 0 + boardLineWidth / 2.0f;

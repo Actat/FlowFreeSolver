@@ -118,12 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
     // draw
     private void reDraw() {
-        int[][] copy = new int[board.getSize()][board.getSize()];
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                copy[i][j] = board.getBoard(i, j);
-            }
-        }
+        Board copy = new Board();
+        copy.copyFrom(board);
         cv.drawBoard(board.getSize(), viewH, viewW, copy);
     }
 

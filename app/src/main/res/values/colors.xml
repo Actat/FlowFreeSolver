@@ -22,4 +22,7 @@
     <color name="colorDarkcyan">#008b8b</color>
     <color name="colorPink">#FF4081</color>
     <color name="frame">#707070</color>
+    <color name="connectionUnsettled">#707070</color>
+    <color name="connectionExist">#0000FF</color>
+    <color name="connectionImpossible">#FF0000</color>
 </resources>

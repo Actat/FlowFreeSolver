@@ -1,6 +1,8 @@
 package com.example.actat.flowfreesolver;
 
 
+import android.util.Log;
+
 public class Board {
     private int SIZE = 5;
     private int MIN_SIZE = 5;
@@ -174,6 +176,7 @@ public class Board {
         board = new Cell[getSize()][getSize()];
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
+                board[i][j] = new Cell();
                 board[i][j].setColor(-1);
             }
         }
@@ -214,7 +217,7 @@ public class Board {
     public int getMaxSize() {
         return MAX_SIZE;
     }
-    public int getBoard(int col, int raw) {
+    public int getColor(int col, int raw) {
         return board[col][raw].getColor();
     }
     public void incrementSize() {
@@ -238,7 +241,7 @@ public class Board {
         board_init();
         for (int row = 0; row < getSize(); row++) {
             for (int col = 0; col < getSize(); col++) {
-                board[row][col].setColor(from.getBoard(row, col));
+                board[row][col].setColor(from.getColor(row, col));
                 for (int direction = 0; direction < 4; direction++) {
                     board[row][col].setConnection(direction, from.getConnection(row, col, direction));
                 }
