@@ -29,7 +29,7 @@ public class Cell {
         return color;
     }
     public void setConnection(int direction, int cnnctn) {
-        if (direction >= 0 && direction < 4 && cnnctn >= -1 && cnnctn < 1) {
+        if (direction >= 0 && direction < 4 && cnnctn >= -1 && cnnctn <= 1) {
             connection[direction] = cnnctn;
         }
     }
