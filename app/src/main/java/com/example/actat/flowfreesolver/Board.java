@@ -57,14 +57,21 @@ public class Board {
                     if (numPossibleNewConnection(board[row][col]) < numNeededNewConnection(board[row][col])) {
                         // 矛盾が発生した場合はfalseを返しておしまい
                         return false;
-                    } else if (numPossibleNewConnection(board[row][col]) == numNeededNewConnection(board[row][col])) {
+                    } else if (numPossibleNewConnection(board[row][col]) != 0 && numPossibleNewConnection(board[row][col]) == numNeededNewConnection(board[row][col])) {
                         createAllPossibleConnection(row, col);
                         newConnectionFlag = true;
+//                        Log.v("BOARD", "newConnection\trow: " + String.valueOf(row) + "\tcol: " + String.valueOf(col) + "\tnumPossibleNewConnection: " + String.valueOf(numPossibleNewConnection(board[row][col])));
                     }
                 }
             }
+            Log.v("BOARD", "newConnectionFlag: " + String.valueOf(newConnectionFlag));
         }
 
+        if (isBoardSolved()) {
+            return true;
+        }
+
+/*
         // 可能な接続の数 > 必要な接続 のところに接続を仮置きして探索を進める
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
@@ -82,7 +89,7 @@ public class Board {
                 }
             }
         }
-
+*/
         return false;
     }
     private int numPossibleNewConnection(Cell cell) {
