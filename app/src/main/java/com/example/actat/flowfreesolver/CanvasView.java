@@ -94,7 +94,7 @@ public class CanvasView extends View {
                     canvas.drawCircle(boardL + frameInterval * ((i % boardSize) + 0.5f), boardT + frameInterval * ((i / boardSize) + 0.5f), frameInterval * 0.35f, paint);
                 }
                 // 接続
-                if (i / boardSize > 0 && boardCopy.getColor(i / boardSize- 1, i % boardSize % 100) == boardCopy.getColor(i / boardSize,i % boardSize) % 100) {
+                if (i / boardSize > 0 && boardCopy.getColor(i / boardSize- 1, i % boardSize) % 100 == boardCopy.getColor(i / boardSize,i % boardSize) % 100) {
                     // up
                     paint.setColor(color[boardCopy.getColor(i / boardSize,i % boardSize) % 100]);
                     canvas.drawRect(boardL + frameInterval * ((i % boardSize) + 0.5f - 0.15f), boardT + frameInterval * (i / boardSize), boardL + frameInterval * ((i % boardSize) + 0.5f + 0.15f), boardT + frameInterval * ((i / boardSize) + 0.5f), paint);
