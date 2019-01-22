@@ -60,7 +60,6 @@ public class Board {
                     } else if (numPossibleNewConnection(board[row][col]) != 0 && numPossibleNewConnection(board[row][col]) == numNeededNewConnection(board[row][col])) {
                         createAllPossibleConnection(row, col);
                         newConnectionFlag = true;
-//                        Log.v("BOARD", "newConnection\trow: " + String.valueOf(row) + "\tcol: " + String.valueOf(col) + "\tnumPossibleNewConnection: " + String.valueOf(numPossibleNewConnection(board[row][col])));
                     }
                 }
             }
