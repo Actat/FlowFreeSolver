@@ -19,6 +19,26 @@ public class MainActivity extends AppCompatActivity {
 
     long startTime, finishTime;
 
+    private class SolveProblemInBackground extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return board.solveProblem();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            finishTime = System.currentTimeMillis();
+            handler.removeCallbacks(r);
+            if (result) {
+                Toast.makeText(getApplicationContext(), "solved in " + String.valueOf(finishTime - startTime) + " ms", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "no solution found", Toast.LENGTH_LONG).show();
+            }
+            reDraw();
+        }
+    }
+    private AsyncTask solve;
+
     // 一定時間ごとに画面を更新する
     private final Handler handler = new Handler();
     private final Runnable r = new Runnable() {
@@ -43,20 +63,24 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.button_minus)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View w) {
-                handler.removeCallbacks(r);
-                board.decrementSize();
-                board.board_init();
-                reDraw();
+                if (solve == null) {
+                    handler.removeCallbacks(r);
+                    board.decrementSize();
+                    board.board_init();
+                    reDraw();
+                }
             }
         });
 
         ((Button)findViewById(R.id.button_plus)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.removeCallbacks(r);
-                board.incrementSize();
-                board.board_init();
-                reDraw();
+                if (solve == null) {
+                    handler.removeCallbacks(r);
+                    board.incrementSize();
+                    board.board_init();
+                    reDraw();
+                }
             }
         });
 
@@ -64,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handler.removeCallbacks(r);
+                if (solve != null) {
+                    solve.cancel(true);
+                    solve = null;
+                }
                 board.board_init();
                 reDraw();
             }
@@ -77,29 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 startTime = System.currentTimeMillis();
 
                 // バックグラウンドで処理
-                AsyncTask<Object, Integer, Boolean> task = new AsyncTask<Object, Integer, Boolean>() {
-                    @Override
-                    protected Boolean doInBackground(Object... objects) {
-                        return board.solveProblem();
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean result) {
-                        // Log.v("LOGIC", "solve finished." + "\t result: " + String.valueOf(result));
-                        finishTime = System.currentTimeMillis();
-                        handler.removeCallbacks(r);
-                        if (result) {
-                            Toast.makeText(getApplicationContext(), "solved in " + String.valueOf(finishTime - startTime) + " ms", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "no solution found", Toast.LENGTH_LONG).show();
-                        }
-                        reDraw();
-                    }
-                };
-                task.execute(this);
+                solve = new SolveProblemInBackground().execute();
             }
         });
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
