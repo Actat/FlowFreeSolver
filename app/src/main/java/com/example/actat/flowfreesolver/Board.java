@@ -42,6 +42,37 @@ public class Board {
         // 問題がない場合はtrue
         return true;
     }
+    private boolean isBoardQualified() {
+        // 2x2のマスが全部同色の場合は不成立
+        for (int row = 0; row < SIZE - 1; row++) {
+            for (int col = 0; col < SIZE - 1; col++) {
+                if (board[row][col].getColor() != -1
+                        && board[row][col].getColor() % 100 == board[row][col + 1].getColor() % 100
+                        && board[row][col + 1].getColor() % 100 == board[row + 1][col + 1].getColor() % 100
+                        && board[row + 1][col + 1].getColor() % 100 == board[row + 1][col].getColor() % 100
+                        && board[row + 1][col].getColor() % 100 == board[row][col].getColor() % 100) {
+                    return false;
+                }
+            }
+        }
+        // loopがある場合は不成立
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (board[row][col].getColor() == -1 && numConnection(board[row][col]) == 2) {
+                    for (int direction = 0; direction < 4; direction++) {
+                        if (board[row][col].getConnection(direction) == 1) {
+                            if (isLoopExistRecursive(getRowOfNeighbor(row, col, direction), getColOfNeighbor(row, col, direction), oppositeDirection(direction), row, col)) {
+                                return false;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
     public boolean solveProblem() {
         if (isBoardSolved()) {
             return true;
@@ -52,6 +83,9 @@ public class Board {
         boolean newConnectionFlag = true;
         while (newConnectionFlag) {
             newConnectionFlag = false;
+            if (!isBoardQualified()) {
+                return false;
+            }
             for (int row = 0; row < SIZE; row++) {
                 for (int col = 0; col < SIZE; col++) {
                     if (numPossibleNewConnection(board[row][col]) < numNeededNewConnection(board[row][col])) {
@@ -110,6 +144,15 @@ public class Board {
         for (int direction = 0; direction < 4; direction++) {
             if (cell.getConnection(direction) == 1) {
                 num--;
+            }
+        }
+        return num;
+    }
+    private int numConnection(Cell cell) {
+        int num = 0;
+        for (int direction = 0; direction < 4; direction++) {
+            if (cell.getConnection(direction) == 1) {
+                num++;
             }
         }
         return num;
@@ -221,6 +264,25 @@ public class Board {
         } else {
             return col;
         }
+    }
+    private boolean isLoopExistRecursive(int row, int col, int direction, int startRow, int startCol) {
+        // 調べるcellのrow,colと，前のcellの向き，スタートのrow, col
+
+        // cellが空欄でなければ関係ないし，両端が接続されていなければ関係ない
+        if (board[row][col].getColor() == -1 && numConnection(board[row][col]) == 2) {
+            for (int d = 0; d < 4; d++) {
+                if (d != direction && board[row][col].getConnection(d) == 1) {
+                    if (getRowOfNeighbor(row, col, d) == startRow && getColOfNeighbor(row, col, d) == startCol) {
+                        // スタートに戻ってきたらloop
+                        return true;
+                    } else {
+                        // 続いているのでその先を調べる
+                        return isLoopExistRecursive(getRowOfNeighbor(row, col, d), getColOfNeighbor(row, col, d), oppositeDirection(d), startRow, startCol);
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public void board_init() {
