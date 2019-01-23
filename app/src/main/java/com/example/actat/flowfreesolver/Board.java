@@ -283,9 +283,11 @@ public class Board {
         }
     }
     public void copyFrom(Board from) {
-        setSIZE(from.getSize());
+        if (SIZE != from.getSize() || board == null) {
+            setSIZE(from.getSize());
+            board_init();
+        }
         setNumDot(from.getNumDot());
-        board_init();
         for (int row = 0; row < getSize(); row++) {
             for (int col = 0; col < getSize(); col++) {
                 board[row][col].setColor(from.getColor(row, col));
