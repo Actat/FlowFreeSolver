@@ -69,25 +69,28 @@ public class Board {
             return true;
         }
 
-/*
         // 可能な接続の数 > 必要な接続 のところに接続を仮置きして探索を進める
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (numPossibleNewConnection(board[row][col]) > numNeededNewConnection(board[row][col])) {
                     // 子供に渡すboardをつくる
-                    Board boardChild = new Board();
-                    boardChild.copyFrom(this);
-                    // 接続を仮置きする
-                    boardChild.putConnectionTemporary(row, col);
-                    // 子供に渡す
-                    if (boardChild.solveProblem()) {
-                        copyFrom(boardChild);
-                        return true;
+                    Board boardBackup = new Board();
+                    boardBackup.copyFrom(this);
+                    // 接続を仮置きして解いてみる
+                    for (int d = 0; d < 4; d++) {
+                        if (canConnect(row, col, d)) {
+                            connect(row, col, d);
+                            if (solveProblem()) {
+                                return true;
+                            } else {
+                                copyFrom(boardBackup);
+                            }
+                        }
                     }
                 }
             }
         }
-*/
+
         return false;
     }
     private int numPossibleNewConnection(Cell cell) {
