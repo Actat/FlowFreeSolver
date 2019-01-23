@@ -63,7 +63,6 @@ public class Board {
                     }
                 }
             }
-            Log.v("BOARD", "newConnectionFlag: " + String.valueOf(newConnectionFlag));
         }
 
         if (isBoardSolved()) {
