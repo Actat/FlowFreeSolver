@@ -117,13 +117,13 @@ public class CanvasView extends View {
             }
             // connection
             paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 0)));
-            canvas.drawLine(boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), paint);
+            canvas.drawLine(boardL + frameInterval * (i % boardSize) + boardLineWidth, boardT + frameInterval * (i / boardSize) + boardLineWidth, boardL + frameInterval * (i % boardSize + 1) - boardLineWidth, boardT + frameInterval * (i / boardSize) + boardLineWidth, paint);
             paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 1)));
-            canvas.drawLine(boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), paint);
+            canvas.drawLine(boardL + frameInterval * (i % boardSize + 1) - boardLineWidth, boardT + frameInterval * (i / boardSize) + boardLineWidth, boardL + frameInterval * (i % boardSize + 1) - boardLineWidth, boardT + frameInterval * (i / boardSize + 1) - boardLineWidth, paint);
             paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 2)));
-            canvas.drawLine(boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), boardL + frameInterval * (i % boardSize + 1 - 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), paint);
+            canvas.drawLine(boardL + frameInterval * (i % boardSize) + boardLineWidth, boardT + frameInterval * (i / boardSize + 1) - boardLineWidth, boardL + frameInterval * (i % boardSize + 1) - boardLineWidth, boardT + frameInterval * (i / boardSize + 1) - boardLineWidth, paint);
             paint.setColor(getColorOfConnection(boardCopy.getConnection(i / boardSize, i % boardSize, 3)));
-            canvas.drawLine(boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 0.2f), boardL + frameInterval * (i % boardSize + 0.2f), boardT + frameInterval * (i / boardSize + 1 - 0.2f), paint);
+            canvas.drawLine(boardL + frameInterval * (i % boardSize) + boardLineWidth, boardT + frameInterval * (i / boardSize) + boardLineWidth, boardL + frameInterval * (i % boardSize) + boardLineWidth, boardT + frameInterval * (i / boardSize + 1) - boardLineWidth, paint);
         }
 
         invalidate();
