@@ -46,11 +46,15 @@ public class Board {
         // 2x2のマスが全部同色の場合は不成立
         for (int row = 0; row < SIZE - 1; row++) {
             for (int col = 0; col < SIZE - 1; col++) {
-                if (board[row][col].getColor() != -1
-                        && board[row][col].getColor() % 100 == board[row][col + 1].getColor() % 100
+                if ((isConnected(row, col, row, col + 1)
+                        && isConnected(row, col + 1, row + 1, col + 1)
+                        && isConnected(row + 1, col + 1, row + 1, col)
+                        && isConnected(row + 1, col, row, col)
+                ||  board[row][col].getColor() != -1
+                        &&(board[row][col].getColor() % 100 == board[row][col + 1].getColor() % 100
                         && board[row][col + 1].getColor() % 100 == board[row + 1][col + 1].getColor() % 100
-                        && board[row + 1][col + 1].getColor() % 100 == board[row + 1][col].getColor() % 100
-                        && board[row + 1][col].getColor() % 100 == board[row][col].getColor() % 100) {
+                        && board[row + 1][col + 1].getColor() == board[row + 1][col].getColor() % 100
+                        && board[row + 1][col].getColor() % 100 == board[row][col].getColor() % 100))) {
                     return false;
                 }
             }
@@ -278,6 +282,33 @@ public class Board {
                     } else {
                         // 続いているのでその先を調べる
                         return isLoopExistRecursive(getRowOfNeighbor(row, col, d), getColOfNeighbor(row, col, d), oppositeDirection(d), startRow, startCol);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean isConnected(int rowStart, int colStart, int rowGoal, int colGoal) {
+        for (int direction = 0; direction < 4; direction++) {
+            if (board[rowStart][colStart].getConnection(direction) == 1) {
+                if (getRowOfNeighbor(rowStart, colStart, direction) == rowGoal && getColOfNeighbor(rowStart, colStart, direction) == colGoal) {
+                    return true;
+                }
+                if (isConnectedRecursive(getRowOfNeighbor(rowStart, colStart, direction), getColOfNeighbor(rowStart, colStart, direction), oppositeDirection(direction), rowGoal, colGoal)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean isConnectedRecursive(int row, int col, int direction, int rowGoal, int colGoal) {
+        if (numConnection(board[row][col]) == 2) {
+            for (int d = 0; d < 4; d++) {
+                if (d != direction && board[row][col].getConnection(d) == 1) {
+                    if (getRowOfNeighbor(row, col, d) == rowGoal && getColOfNeighbor(row, col, d) == colGoal) {
+                        return true;
+                    } else {
+                        return isConnectedRecursive(getRowOfNeighbor(row, col, d), getColOfNeighbor(row, col, d), oppositeDirection(d), rowGoal, colGoal);
                     }
                 }
             }
