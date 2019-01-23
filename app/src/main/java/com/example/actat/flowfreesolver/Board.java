@@ -258,18 +258,10 @@ public class Board {
 
         board[row][col].setColor(color + 100);
     }
-    public int getSize() {
-        return SIZE;
-    }
-    public int getMinSize() {
-        return MIN_SIZE;
-    }
-    public int getMaxSize() {
-        return MAX_SIZE;
-    }
-    public int getColor(int col, int raw) {
-        return board[col][raw].getColor();
-    }
+    public int getSize() { return SIZE; }
+    public int getMinSize() { return MIN_SIZE; }
+    public int getMaxSize() { return MAX_SIZE; }
+    public int getColor(int col, int raw) { return board[col][raw].getColor(); }
     public void incrementSize() {
         if (SIZE < getMaxSize()) {
             SIZE++;
@@ -303,11 +295,6 @@ public class Board {
     public int getConnection(int row, int col, int direction) {
         return board[row][col].getConnection(direction);
     }
-    public void setNumDot(int n) {
-        numDot = n;
-    }
-    public int getNumDot() {
-        return numDot;
-    }
-
+    public void setNumDot(int n) { numDot = n; }
+    public int getNumDot() { return numDot; }
 }
