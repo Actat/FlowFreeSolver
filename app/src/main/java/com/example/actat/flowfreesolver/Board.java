@@ -125,10 +125,10 @@ public class Board {
             board[row][col].setConnection(direction, 1);
             neighbor.setConnection(oppositeDirection(direction), 1);
             if (board[row][col].getColor() == -1 && neighbor.getColor() != -1) {
-                board[row][col].setColor(neighbor.getColor() % 100);
+                setColorRecursive(getRowOfNeighbor(row, col, direction), getColOfNeighbor(row, col, direction), oppositeDirection(direction));
             }
             if (board[row][col].getColor() != -1 && neighbor.getColor() == -1) {
-                neighbor.setColor(board[row][col].getColor() % 100);
+                setColorRecursive(row, col, direction);
             }
             eraseImpossibleConnection();
             processConnectionSaturation(board[row][col]);
@@ -163,9 +163,7 @@ public class Board {
         }
         return board[row][col].getConnection(direction) == 0 && neighbor.getConnection(oppositeDirection(direction)) == 0;
     }
-    private int oppositeDirection (int direction) {
-        return (direction + 2) % 4;
-    }
+    private int oppositeDirection (int direction) {return (direction + 2) % 4;}
     private Cell getNeighborCell(int row, int col, int direction) {
         if (direction == 0 && row > 0) {
             return board[row - 1][col];
@@ -190,6 +188,35 @@ public class Board {
                     }
                 }
             }
+        }
+    }
+    private void setColorRecursive(int row, int col, int direction) {
+        Cell neighbor = board[getRowOfNeighbor(row, col, direction)][getColOfNeighbor(row, col, direction)];
+        if (neighbor.getColor() == -1) {
+            neighbor.setColor(board[row][col].getColor() % 100);
+            for (int d = 0; d < 4; d++) {
+                if (d != oppositeDirection(direction) && neighbor.getConnection(d) == 1) {
+                    setColorRecursive(getRowOfNeighbor(row, col, direction), getColOfNeighbor(row, col, direction), d);
+                }
+            }
+        }
+    }
+    private int getRowOfNeighbor(int row, int col, int direction) {
+        if (direction == 0) {
+            return row - 1;
+        } else if (direction == 2) {
+            return row + 1;
+        } else {
+            return row;
+        }
+    }
+    private int getColOfNeighbor(int row, int col, int direction) {
+        if (direction == 1) {
+            return col + 1;
+        } else if (direction == 3) {
+            return col - 1;
+        } else {
+            return col;
         }
     }
 
