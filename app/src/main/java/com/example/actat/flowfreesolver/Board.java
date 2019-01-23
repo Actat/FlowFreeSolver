@@ -133,27 +133,28 @@ public class Board {
                 setColorRecursive(row, col, direction);
             }
             eraseImpossibleConnection();
-            processConnectionSaturation(board[row][col]);
-            processConnectionSaturation(neighbor);
+            processConnectionSaturation(row, col);
+            processConnectionSaturation(getRowOfNeighbor(row, col, direction), getColOfNeighbor(row, col, direction));
         }
     }
-    private void processConnectionSaturation(Cell cell) {
+    private void processConnectionSaturation(int row, int col) {
         int neededConnection = 2;
         int existingConnection = 0;
-
-        if (cell.getColor() >= 100 && cell.getColor() <=115) {
+        // 始点終点では最大接続数1
+        if (board[row][col].getColor() >= 100 && board[row][col].getColor() <=115) {
             neededConnection = 1;
         }
         for (int i = 0; i < 4; i++) {
-            if (cell.getConnection(i) == 1) {
+            if (board[row][col].getConnection(i) == 1) {
                 existingConnection++;
             }
         }
 
         if (existingConnection >= neededConnection) {
             for(int i = 0; i < 4; i++) {
-                if (cell.getConnection(i) == 0) {
-                    cell.setConnection(i, -1);
+                if (board[row][col].getConnection(i) == 0) {
+                    board[row][col].setConnection(i, -1);
+                    getNeighborCell(row, col, i).setConnection(oppositeDirection(i), -1);
                 }
             }
         }
