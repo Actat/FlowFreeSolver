@@ -98,6 +98,13 @@ public class Board {
                     } else if (numPossibleNewConnection(board[row][col]) != 0 && numPossibleNewConnection(board[row][col]) == numNeededNewConnection(board[row][col])) {
                         createAllPossibleConnection(row, col);
                         newConnectionFlag = true;
+                    } else if (board[row][col].getColor() != -1 && numPossibleNewConnection(board[row][col]) > 0) {
+                        for (int d = 0; d < 4; d++) {
+                            Cell neighbor = getNeighborCell(row, col, d);
+                            if (neighbor != null && board[row][col].getColor() % 100 == neighbor.getColor() % 100) {
+                                connect(row, col, d);
+                            }
+                        }
                     }
                 }
             }
