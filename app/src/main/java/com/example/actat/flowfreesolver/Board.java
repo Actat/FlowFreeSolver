@@ -122,6 +122,7 @@ public class Board {
                                 return true;
                             } else {
                                 copyFrom(boardBackup);
+                                disconnect(row, col, d);
                             }
                         }
                     }
@@ -183,6 +184,13 @@ public class Board {
             processConnectionSaturation(row, col);
             processConnectionSaturation(getRowOfNeighbor(row, col, direction), getColOfNeighbor(row, col, direction));
         }
+    }
+    private void disconnect(int row, int col, int direction) {
+        Cell neighbor = getNeighborCell(row, col, direction);
+        board[row][col].setConnection(direction, -1);
+        neighbor.setConnection(oppositeDirection(direction), -1);
+        processConnectionSaturation(row, col);
+        processConnectionSaturation(getRowOfNeighbor(row, col, direction), getColOfNeighbor(row, col, direction));
     }
     private void processConnectionSaturation(int row, int col) {
         int neededConnection = 2;
