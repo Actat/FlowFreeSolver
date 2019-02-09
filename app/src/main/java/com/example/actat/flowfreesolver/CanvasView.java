@@ -60,12 +60,12 @@ public class CanvasView extends View {
         color[7] =  getResources().getColor(R.color.colorMaroon);
         color[8] =  getResources().getColor(R.color.colorPurple);
         color[9] =  getResources().getColor(R.color.colorWhite);
-        color[10] = getResources().getColor(R.color.colorTan);
+        color[10] = getResources().getColor(R.color.colorGray);
         color[11] = getResources().getColor(R.color.colorBrightgreen);
         color[12] = getResources().getColor(R.color.colorDarkblue);
         color[13] = getResources().getColor(R.color.colorPink);
         color[14] = getResources().getColor(R.color.colorDarkcyan);
-        color[15] = getResources().getColor(R.color.colorGray);
+        color[15] = getResources().getColor(R.color.colorTan);
     }
 
     @Override
