@@ -16,6 +16,7 @@
 - SOLVEボタンを押すと回答が表示される
 - RESETボタンを押すと初期化される
 - PLUS, MINUSボタンを押すと大きさを変えることができる
+- [動作する様子](https://twitter.com/Actat85/status/1088029827846684672?s=20)
 
 ## 解答するロジック
 - BoardクラスのsolveProblem()
